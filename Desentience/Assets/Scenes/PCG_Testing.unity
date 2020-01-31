@@ -562,15 +562,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 0
-  width: 50
-  length: 50
+  width: 100
+  length: 100
   gridSize: 5
-  minGapBetweenHallways: 2
-  maxGapBetweenHallways: 15
+  minGapBetweenHallways: 4
+  maxGapBetweenHallways: 16
   hallwaySkipChance: 0.25
   roomFillInChance: 0.1
-  minHallwaySkip: 3
+  minHallwaySkip: 5
   maxHallwaySkip: 7
+  ensureFullConnectivity: 1
+  removeDeadEnds: 0
   squarePrefab: {fileID: 14813787211532277, guid: 1e7cd9bfc1bab1a47bb7cded99b7c51a,
     type: 3}
   squareSpawnHeight: 0.5
@@ -726,8 +728,8 @@ Camera:
   m_GameObject: {fileID: 1982066424}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -768,7 +770,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982066424}
   m_LocalRotation: {x: 0.60876137, y: 0, z: 0, w: 0.7933534}
-  m_LocalPosition: {x: 100, y: 225, z: 50}
+  m_LocalPosition: {x: 175, y: 500, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

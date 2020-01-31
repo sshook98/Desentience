@@ -18,6 +18,8 @@ public class FloorGenerator : MonoBehaviour
     public int minHallwaySkip;
     public int maxHallwaySkip;
     private int hallwaySkip;
+    public bool ensureFullConnectivity = true;
+    public bool removeDeadEnds = true;
 
     private int[,] floor;
     private int iteration = 1;
@@ -79,6 +81,15 @@ public class FloorGenerator : MonoBehaviour
         CreateWalls();
 
         FillRooms();
+
+        if (ensureFullConnectivity)
+        {
+            EnsureConnectivity();
+        }
+        if (removeDeadEnds)
+        {
+            RemoveDeadEnds();
+        }
 
         InterpretFloor();
         iteration++;
@@ -186,7 +197,8 @@ public class FloorGenerator : MonoBehaviour
         int x = pos.x;
         int z = pos.y;
 
-        if (floor[x, z] == emptyKey)
+        int key = floor[x, z];
+        if (key == emptyKey || key == squareKey)
         {
             List<Vector2Int> adj = GetAdjacent(pos);
             int count = 0;
@@ -214,6 +226,7 @@ public class FloorGenerator : MonoBehaviour
     {
         int numRooms = 1000;
         int numDoors;
+        int minNumDoors = 2;
         Vector2Int cur;
         Vector2Int pos;
         List<Vector2Int> fringe;
@@ -246,7 +259,7 @@ public class FloorGenerator : MonoBehaviour
                     }
                 }
 
-                numDoors = Random.Range(2, Mathf.Min(8, (doorOptions.Count / 20) + 2));
+                numDoors = Random.Range(minNumDoors, doorOptions.Count / 20 + minNumDoors);
                 for (int k = 0; k < numDoors && doorOptions.Count > 0; k++)
                 {
                     Vector2Int door = doorOptions[Random.Range(0, doorOptions.Count)];
@@ -259,6 +272,84 @@ public class FloorGenerator : MonoBehaviour
         CheckFillIn(pos, squareKey);
     }
 
+    private void EnsureConnectivity()
+    {
+        List<Vector2Int> allspots = new List<Vector2Int>();
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < length; j++)
+            {
+                allspots.Add(new Vector2Int(i, j));
+            }
+        }
+
+        Vector2Int startingPoint = new Vector2Int(1, 1);
+        bool foundStartingPoint = false;
+        while (!foundStartingPoint)
+        {
+            int x = Random.Range(1, width-1);
+            int z = Random.Range(1, length-1);
+            startingPoint = new Vector2Int(x, z);
+
+            foundStartingPoint = floor[x, z] == squareKey;
+        }
+
+        List<Vector2Int> connected = new List<Vector2Int>();
+        List<Vector2Int> fringe = new List<Vector2Int>();
+        Vector2Int cur;
+        fringe.Add(startingPoint);
+
+        while (fringe.Count > 0)
+        {
+            cur = fringe[0];
+            fringe.RemoveAt(0);
+
+            if (floor[cur.x, cur.y] == squareKey && !connected.Contains(cur))
+            {
+                connected.Add(cur);
+                List<Vector2Int> neighbors = GetAdjacent(cur);
+                foreach (Vector2Int pos in neighbors)
+                {
+                    if (!fringe.Contains(pos) && !connected.Contains(pos))
+                    {
+                        fringe.Add(pos);
+                    }
+                }
+            }
+        }
+
+        int filledCount = 0;
+        for (int i = 0; i < allspots.Count; i++)
+        {
+            cur = allspots[i];
+            if (!connected.Contains(cur))
+            {
+                filledCount++;
+                floor[cur.x, cur.y] = wallKey;
+            }
+        }
+
+        Debug.Log("Filled to ensure connectivity: " + filledCount);
+
+
+    }
+
+    private void RemoveDeadEnds()
+    {
+        Vector2Int cur;
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < length; j++)
+            {
+                cur = new Vector2Int(i, j);
+                if (floor[i, j] == squareKey)
+                {
+                    CheckFillIn(cur, wallKey);
+                }
+            }
+        }
+    }
+    
 
     private void InterpretFloor()
     {
