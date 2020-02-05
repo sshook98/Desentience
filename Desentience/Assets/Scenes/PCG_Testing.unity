@@ -562,12 +562,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 0
-  width: 100
-  length: 100
+  width: 25
+  length: 25
   gridSize: 5
   minGapBetweenHallways: 4
-  maxGapBetweenHallways: 16
-  hallwaySkipChance: 0.25
+  maxGapBetweenHallways: 8
+  hallwaySkipChance: 0.1
   roomFillInChance: 0.1
   minHallwaySkip: 5
   maxHallwaySkip: 7
