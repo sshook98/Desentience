@@ -52,20 +52,22 @@ public class CharacterInputController : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.Q))
+        {
             h = -0.5f;
+
+        }
         else if (Input.GetKey(KeyCode.E))
+        {
             h = 0.5f;
+        }
 
-        filteredForwardInput = Mathf.Clamp(Mathf.Lerp(filteredForwardInput, v,
-            Time.deltaTime * forwardInputFilter), -forwardSpeedLimit, forwardSpeedLimit);
+        filteredForwardInput = Mathf.Clamp(Mathf.Lerp(filteredForwardInput, v, Time.deltaTime * forwardInputFilter), -forwardSpeedLimit, forwardSpeedLimit);
 
-        filteredTurnInput = Mathf.Lerp(filteredTurnInput, h,
-            Time.deltaTime * turnInputFilter);
+        filteredTurnInput = Mathf.Lerp(filteredTurnInput, h, Time.deltaTime * turnInputFilter);
 
         Forward = filteredForwardInput;
         Turn = filteredTurnInput;
 
-        Action = Input.GetButtonDown("Fire1");
-
+        Action = Input.GetMouseButtonDown(0);
     }
 }

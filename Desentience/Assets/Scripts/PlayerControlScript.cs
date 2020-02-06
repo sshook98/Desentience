@@ -6,22 +6,19 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterInputController))]
 public class PlayerControlScript : MonoBehaviour
 {
-    private Animator anim;
-    private Rigidbody rbody;
-    private CharacterInputController cinput;
-
     public float forwardMaxSpeed = 1f;
     public float turnMaxSpeed = 1f;
-
     public GameObject projectile;
     public float projectileSpeed = 20;
     public int projectileDelay = 50;
     public float destroyDelay = 3.0f;
-
-    private int fireDelay;
+    public int fireRate;
 
     private Renderer[] rends;
     private Bounds allBounds;
+    private Animator anim;
+    private Rigidbody rb;
+    private CharacterInputController cinput;
 
     void Awake()
     {
@@ -29,34 +26,38 @@ public class PlayerControlScript : MonoBehaviour
         anim = GetComponent<Animator>();
 
         if (anim == null)
+        {
             Debug.Log("Animator could not be found");
+        }
 
-        rbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
 
-        if (rbody == null)
+        if (rb == null)
+        {
             Debug.Log("Rigid body could not be found");
+        }
 
         cinput = GetComponent<CharacterInputController>();
 
         if (cinput == null)
+        {
             Debug.Log("CharacterInputController could not be found");
+        }
 
     }
 
 
-    // Use this for initialization
     void Start()
     {
         anim.applyRootMotion = false;
-        fireDelay = 0;
 
-        //get bounds of renderer and renderers of all children
-        rends = GetComponentsInChildren<Renderer>();
-        allBounds.center = this.transform.position;
-        foreach (Renderer rend in rends)
-        {
-            allBounds.Encapsulate(rend.bounds);
-        }
+        ////get bounds of renderer and renderers of all children
+        //rends = GetComponentsInChildren<Renderer>();
+        //allBounds.center = this.transform.position;
+        //foreach (Renderer rend in rends)
+        //{
+        //    allBounds.Encapsulate(rend.bounds);
+        //}
 
     }
 
@@ -76,22 +77,22 @@ public class PlayerControlScript : MonoBehaviour
             firing = cinput.Action;
         }
 
-        rbody.MovePosition(rbody.position + this.transform.forward * inputForward * Time.deltaTime * forwardMaxSpeed);
+        rb.MovePosition(rb.position + this.transform.forward * inputForward * Time.deltaTime * forwardMaxSpeed);
 
-        rbody.MoveRotation(rbody.rotation * Quaternion.AngleAxis(inputTurn * Time.deltaTime * turnMaxSpeed, Vector3.up));
+        rb.MoveRotation(rb.rotation * Quaternion.AngleAxis(inputTurn * Time.deltaTime * turnMaxSpeed, Vector3.up));
 
-        if (firing && fireDelay <= 0)
+        if (firing && fireRate <= 0)
         {
             Vector3 projectilePosition = transform.position + (transform.up * (allBounds.size.y / 2)) + (transform.forward * allBounds.size.z);
             GameObject instantiatedProjectile = Instantiate(projectile, projectilePosition, transform.rotation);
             
             instantiatedProjectile.GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3(0, 0, projectileSpeed));
             instantiatedProjectile.GetComponent<BooletScript>().destroyDelay = destroyDelay;
-            fireDelay = projectileDelay;
+            fireRate = projectileDelay;
 
-        } else if (fireDelay > 0)
+        } else if (fireRate > 0)
         {
-            fireDelay--;
+            fireRate--;
         }
 
 

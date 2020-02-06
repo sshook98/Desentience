@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class BooletScript : MonoBehaviour
 {
-    public float destroyDelay = 3.0f;
+    public float destroyDelay = 10f;
 
-    // Start is called before the first frame update
     void Start()
     {
-        if (destroyDelay > 0) Destroy(gameObject, destroyDelay);
+        if (destroyDelay > 0)
+        {
+            Destroy(gameObject, destroyDelay);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-
+        Destroy(gameObject);
     }
 }
