@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TestAgent : MonoBehaviour
+public class TestAI : MonoBehaviour
 {
     private GameObject target;
     public bool inCombat = false;
@@ -50,7 +50,6 @@ public class TestAgent : MonoBehaviour
             if (timer >= wanderTimer) 
             {
                 Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
-                print(newPos);
                 agent.SetDestination(newPos);
                 timer = 0;
             }
@@ -59,7 +58,6 @@ public class TestAgent : MonoBehaviour
         shotTimer -= Time.deltaTime;
         if (inCombat && shotTimer <= 0)
         {
-            print("in sight");
             Fire();
         }
     }
