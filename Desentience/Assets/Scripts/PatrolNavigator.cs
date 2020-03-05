@@ -35,11 +35,12 @@ public class PatrolNavigator : MonoBehaviour
         {
             agent.SetDestination(patrolPoints[0].position);
             currentTargetIndex = 0;
-        }
-        else
+        } else
         {
             Debug.LogError("Patrol Navigator setup incorrectly");
         }
+
+        target = GameManager.Instance.player.transform;
         if (target == null)
         {
             Debug.LogError("target not initialized");
