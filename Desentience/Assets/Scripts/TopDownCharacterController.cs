@@ -11,12 +11,16 @@ public class TopDownCharacterController : MonoBehaviour
     public float fireRate;
     public float bulletSpeed;
     public float leanIntensity;
+    public float leanStep;
 
     public float timeBetweenShots;
     private float shotTimer = 0;
     private Rigidbody rb;
     private Vector3 aimPosition = Vector3.zero;
     private Animator anim;
+
+    private float oldh;
+    private float oldv;
 
 
     private void Start()
@@ -39,9 +43,10 @@ public class TopDownCharacterController : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        //Quaternion currentRotation = playerModel.rotation;
-        //Quaternion targetRotation = Quaternion.Euler(v * leanIntensity, 0f, -h * leanIntensity);
-        playerModel.rotation = Quaternion.Euler(v * leanIntensity, 0f, -h * leanIntensity);
+        Quaternion currentRotation = playerModel.rotation;
+        float newh = Mathf.Lerp(oldh, h, leanStep);
+        float newv = Mathf.Lerp(oldv, v, leanStep);
+        Quaternion targetRotation = Quaternion.Euler(newv * leanIntensity, 0f, -newh * leanIntensity);
 
         if (Physics.Raycast(ray , out hit))
         {
@@ -49,14 +54,20 @@ public class TopDownCharacterController : MonoBehaviour
             lookPosition.y = 0;
             aimPosition = hit.point;
             Quaternion rotation = Quaternion.LookRotation(lookPosition);
-            playerModel.rotation *= rotation;
+            targetRotation *= rotation;
         }
+
+        playerModel.rotation = Quaternion.RotateTowards(currentRotation, targetRotation, Time.deltaTime * 1000);
 
         shotTimer -= Time.deltaTime;
         if (Input.GetMouseButton(0) && shotTimer <= 0) // Left Mouse button down,  later switch to a virtual buton "Fire1"
         {
             Fire();
         }
+
+        oldh = newh;
+        oldv = newv;
+
     }
 
     private void Fire()
@@ -70,5 +81,7 @@ public class TopDownCharacterController : MonoBehaviour
         projRb.velocity = velocity;
 
         shotTimer = timeBetweenShots;
+
+        anim.Play("shoot");
     }
 }
