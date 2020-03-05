@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyScript : MonoBehaviour
+public class EnemyAnimatorScript : MonoBehaviour
 {
     public float speed;
     public Transform robotModel;
+    public float leanIntensity;
+    public float maxSpeed;
 
     private Rigidbody rb;
 
@@ -16,10 +18,9 @@ public class EnemyScript : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        rb.velocity = new Vector3(h, 0, v) * speed;
+        float h = rb.velocity.x / maxSpeed;
+        float v = rb.velocity.z / maxSpeed;
 
-        robotModel.rotation = Quaternion.Euler(v * 10.0f, 0f, -h * 10.0f);
+        robotModel.rotation = Quaternion.Euler(v * leanIntensity, 0f, -h * leanIntensity);
     }
 }

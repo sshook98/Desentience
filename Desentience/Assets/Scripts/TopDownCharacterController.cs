@@ -10,17 +10,24 @@ public class TopDownCharacterController : MonoBehaviour
     public Transform projectileSpawnPoint;
     public float fireRate;
     public float bulletSpeed;
+    public float leanIntensity;
 
     public float timeBetweenShots;
     private float shotTimer = 0;
     private Rigidbody rb;
     private Vector3 aimPosition = Vector3.zero;
+    private Animator anim;
 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         timeBetweenShots = 1f / fireRate;
+    }
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -32,13 +39,17 @@ public class TopDownCharacterController : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+        //Quaternion currentRotation = playerModel.rotation;
+        //Quaternion targetRotation = Quaternion.Euler(v * leanIntensity, 0f, -h * leanIntensity);
+        playerModel.rotation = Quaternion.Euler(v * leanIntensity, 0f, -h * leanIntensity);
+
         if (Physics.Raycast(ray , out hit))
         {
             Vector3 lookPosition = hit.point - transform.position;
             lookPosition.y = 0;
             aimPosition = hit.point;
             Quaternion rotation = Quaternion.LookRotation(lookPosition);
-            playerModel.rotation = rotation;
+            playerModel.rotation *= rotation;
         }
 
         shotTimer -= Time.deltaTime;
