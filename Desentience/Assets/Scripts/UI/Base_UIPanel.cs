@@ -8,6 +8,12 @@ public class Base_UIPanel : MonoBehaviour
 {
     public bool isOpen = false;
 
+
+    private void Start()
+    {
+        gameObject.SetActive(isOpen);
+    }
+
     public virtual void OpenBehavior()
     {
         if (!isOpen)
