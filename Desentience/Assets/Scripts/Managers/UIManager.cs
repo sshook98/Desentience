@@ -9,10 +9,10 @@ public class UIManager : MonoBehaviour
 
     public static UIManager instance;
 
-    public Base_UIPanel firstPanel;
+    public Pause_UIPanel pauseMenu;
     public Base_UIPanel secondPanel;
-
-    Base_UIPanel _currentPanel;
+    [SerializeField]
+    private Base_UIPanel _currentPanel;
 
     private void Awake()
     {
@@ -26,12 +26,14 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        TriggerOpenPanel(firstPanel);
+        // TriggerOpenPanel(pauseMenu);
     }
 
     private void Update()
     {
-        if (_currentPanel) _currentPanel.UpdateBehavior();
+        if (_currentPanel) {
+            _currentPanel.UpdateBehavior();
+        };
     }
 
     public void TriggerPanelTransition(Base_UIPanel panel)
@@ -44,12 +46,25 @@ public class UIManager : MonoBehaviour
         if (_currentPanel != null) TriggerClosePanel(_currentPanel);
         _currentPanel = panel;
         _currentPanel.OpenBehavior();
-
     }
 
     void TriggerClosePanel(Base_UIPanel panel)
     {
         panel.CloseBehavior();
+    }
+
+    public void TogglePause()
+    {
+        if (_currentPanel != pauseMenu)
+        {
+            Time.timeScale = 0.0f;
+            TriggerOpenPanel(pauseMenu);
+        } else
+        {
+            TriggerClosePanel(pauseMenu);
+            _currentPanel = null;
+            Time.timeScale = 1.0f;
+        }
     }
 
     public static UIManager Instance

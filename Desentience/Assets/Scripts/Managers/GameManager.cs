@@ -5,10 +5,10 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
 
-    public static GameManager instance = null;
+    public static GameManager instance;
 
     //Component references we want stored in the GameManager
-    public GameObject player = null;
+    public GameObject player;
 
     //Awake is always called before any Start functions
     void Awake()
@@ -36,6 +36,16 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown("escape"))
+        {
+            UIManager.Instance.TogglePause();
+        }
+
+    }
+
 
     public static GameManager Instance
     {
