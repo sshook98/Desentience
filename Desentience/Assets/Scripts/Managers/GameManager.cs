@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;        //Allows us to use Lists. 
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
         {
             //if not, set instance to this
             instance = this;
+            //Sets this to not be destroyed when reloading scene
+            DontDestroyOnLoad(gameObject);
         }
         //If instance already exists and it's not this:
         else if (instance != this)
@@ -25,8 +27,6 @@ public class GameManager : MonoBehaviour
             //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
             Destroy(gameObject);
         }
-        //Sets this to not be destroyed when reloading scene
-        DontDestroyOnLoad(gameObject);
 
         //Get a component reference to each of the private variables
         player = GameObject.FindGameObjectWithTag("Player");

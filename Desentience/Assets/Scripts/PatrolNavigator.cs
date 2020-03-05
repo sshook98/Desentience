@@ -10,9 +10,7 @@ public class PatrolNavigator : MonoBehaviour
     public Transform[] patrolPoints;
     public float detectionRadius = 10.0f;
     public float chaseRadius = 15.0f;
-
-    // TODO
-    // create singleton player manager that can distribute player "target" to all enemies
+    
     public Transform target;
     public bool isChasing = false;
     private Vector3 chaseOrigin;
