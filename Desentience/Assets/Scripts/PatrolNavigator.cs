@@ -41,7 +41,14 @@ public class PatrolNavigator : MonoBehaviour
         target = GameManager.Instance.player.transform;
         if (target == null)
         {
-            Debug.LogError("target not initialized");
+            GameObject go = GameObject.FindGameObjectWithTag("Player");
+            if (go != null)
+            {
+                target = go.transform;
+            } else
+            {
+                Debug.LogError("Could not find a target with tag player");
+            }
         }
 
     }
