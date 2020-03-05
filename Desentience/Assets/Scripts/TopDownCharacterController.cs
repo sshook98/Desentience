@@ -72,6 +72,7 @@ public class TopDownCharacterController : MonoBehaviour
 
     private void Fire()
     {
+        print("FIRE");
         GameObject projectile = Instantiate(projectilePrefab);
         projectile.transform.position = projectileSpawnPoint.position;
         Vector3 velocity = (aimPosition - transform.position).normalized * bulletSpeed;
