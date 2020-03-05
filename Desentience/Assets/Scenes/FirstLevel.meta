@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Desentience/Assets/Scenes/FirstLevel.meta
 guid: 7cf805c4b5dc3904a8047bfba9c8541c
+=======
+guid: 603a1403bb74bad4fa690f99f90e326a
+>>>>>>> cbe0389bedee49c9aa7ffcfc9105a21037f3ce8e:Desentience/Assets/Scripts/Interfaces.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
