@@ -128,7 +128,7 @@ public class PatrolNavigator : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         print(collision.gameObject.tag);
-        if (collision.gameObject.tag == "Player") {
+        if (collision.gameObject.tag == "Bullet") {
             if (health > 0)
             {
                 health -= 20;
@@ -138,6 +138,5 @@ public class PatrolNavigator : MonoBehaviour
                 print("DEATH");
             }
         }
-        print(health);
     }
 }
