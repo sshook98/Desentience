@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Square
   - Wall
+  - Boolet
+  - Laserbeam
   layers:
   - Default
   - TransparentFX
