@@ -22,10 +22,13 @@ public class PatrolNavigator : MonoBehaviour
     private int currentTargetIndex;
     NavMeshAgent agent;
 
+    public int health;
+
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        health = 100;
         if (agent == null)
         {
             Debug.LogError("Patrol navigator does not have NavMeshAgent: " + gameObject.name);
@@ -114,5 +117,21 @@ public class PatrolNavigator : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        print(collision.gameObject.tag);
+        if (collision.gameObject.tag == "Player") {
+            if (health > 0)
+            {
+                health -= 20;
+            }
+            if (health <= 0)
+            {
+                print("DEATH");
+            }
+        }
+        print(health);
     }
 }
