@@ -13,6 +13,7 @@ public class TopDownCameraController : MonoBehaviour
     }
     private void Start()
     {
+        // Don't put anything after this, stops execution at this line for whatever reason
         offset = transform.position - target.position;
     }
 
