@@ -14,7 +14,7 @@ public class FollowClickNavigator : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !GameManager.Instance.IsPaused())
         {
             RaycastHit hit;
 

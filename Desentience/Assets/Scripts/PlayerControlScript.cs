@@ -44,6 +44,7 @@ public class PlayerControlScript : MonoBehaviour
             Debug.Log("CharacterInputController could not be found");
         }
 
+        GameManager.Instance.player = gameObject;
     }
 
 

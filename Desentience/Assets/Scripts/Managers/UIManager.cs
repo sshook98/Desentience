@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // https://www.youtube.com/watch?v=hjnJnz77OVU
-
+[RequireComponent(typeof(DDOL))]
 public class UIManager : MonoBehaviour
 {
 
-    public static UIManager instance;
+    private static UIManager instance;
 
     public Pause_UIPanel pauseMenu;
-    public Base_UIPanel secondPanel;
+    public Main_UIPanel mainMenu;
+
     [SerializeField]
     private Base_UIPanel _currentPanel;
 
@@ -19,14 +20,15 @@ public class UIManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else { Destroy(gameObject); }
+        else {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
     {
-        // TriggerOpenPanel(pauseMenu);
+        TriggerOpenPanel(mainMenu);
     }
 
     private void Update()
@@ -38,7 +40,14 @@ public class UIManager : MonoBehaviour
 
     public void TriggerPanelTransition(Base_UIPanel panel)
     {
-        TriggerOpenPanel(panel);
+        if (panel == null)
+        {
+            TriggerClosePanel(_currentPanel);
+            _currentPanel = null;
+        } else
+        {
+            TriggerOpenPanel(panel);
+        }
     }
 
     void TriggerOpenPanel(Base_UIPanel panel)
@@ -51,20 +60,6 @@ public class UIManager : MonoBehaviour
     void TriggerClosePanel(Base_UIPanel panel)
     {
         panel.CloseBehavior();
-    }
-
-    public void TogglePause()
-    {
-        if (_currentPanel != pauseMenu)
-        {
-            Time.timeScale = 0.0f;
-            TriggerOpenPanel(pauseMenu);
-        } else
-        {
-            TriggerClosePanel(pauseMenu);
-            _currentPanel = null;
-            Time.timeScale = 1.0f;
-        }
     }
 
     public static UIManager Instance
