@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     //References we want stored in the GameManager
     public GameObject player;
 
+    [SerializeField]
+    private string gameScene = "ZachTestingScene";
+
     //Awake is always called before any Start functions
     void Awake()
     {
@@ -32,6 +35,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private bool isPaused = false;
+
+    public bool IsPaused()
+    {
+        return isPaused;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown("escape"))
@@ -47,16 +56,19 @@ public class GameManager : MonoBehaviour
         {
             UIManager.Instance.TriggerPanelTransition(null);
             Time.timeScale = 1.0f;
+            isPaused = false;
         } else
         {
             Time.timeScale = 0.0f;
             UIManager.Instance.TriggerPanelTransition(UIManager.Instance.pauseMenu);
+            isPaused = true;
         }
     }
 
     public void StartGame()
     {
         LoadScene("ZachTestingScene");
+        UIManager.Instance.TriggerPanelTransition(null);
     }
 
     public void LoadScene(string sceneName)
