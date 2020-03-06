@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(DDOL))]
 public class GameManager : MonoBehaviour
 {
 
-    public static GameManager instance;
+    private static GameManager instance;
 
-    //Component references we want stored in the GameManager
+    //References we want stored in the GameManager
     public GameObject player;
 
     //Awake is always called before any Start functions
@@ -18,8 +20,6 @@ public class GameManager : MonoBehaviour
         {
             //if not, set instance to this
             instance = this;
-            //Sets this to not be destroyed when reloading scene
-            DontDestroyOnLoad(gameObject);
         }
         //If instance already exists and it's not this:
         else if (instance != this)
@@ -28,24 +28,41 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        //Get a component reference to each of the private variables
-        player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null)
-        {
-            Debug.Log("No GameObject found with Player tag");
-        }
-
     }
 
+    [SerializeField]
+    private bool isPaused = false;
     private void Update()
     {
         if (Input.GetKeyDown("escape"))
         {
-            UIManager.Instance.TogglePause();
+            TogglePause();
         }
 
     }
 
+    public void TogglePause()
+    {
+        if (isPaused)
+        {
+            UIManager.Instance.TriggerPanelTransition(null);
+            Time.timeScale = 1.0f;
+        } else
+        {
+            Time.timeScale = 0.0f;
+            UIManager.Instance.TriggerPanelTransition(UIManager.Instance.pauseMenu);
+        }
+    }
+
+    public void StartGame()
+    {
+        LoadScene("ZachTestingScene");
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 
     public static GameManager Instance
     {
