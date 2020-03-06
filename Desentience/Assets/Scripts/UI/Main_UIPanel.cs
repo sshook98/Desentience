@@ -17,7 +17,6 @@ public class Main_UIPanel : Base_UIPanel
 
     void StartButtonPressed()
     {
-        Base_UIPanel nextPanel = UIManager.instance.secondPanel;
-        UIManager.Instance.TriggerPanelTransition(nextPanel);
+        GameManager.Instance.StartGame();
     }
 }

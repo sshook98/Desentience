@@ -12,8 +12,12 @@ public class Pause_UIPanel : Base_UIPanel
     public override void OpenBehavior()
     {
         base.OpenBehavior();
+
         resumeButton.onClick.RemoveAllListeners();
         resumeButton.onClick.AddListener(() => { ResumeButtonPressed(); });
+
+        menuButton.onClick.RemoveAllListeners();
+        menuButton.onClick.AddListener(() => { MenuButtonPressed(); });
     }
 
     private void Awake()
@@ -23,7 +27,7 @@ public class Pause_UIPanel : Base_UIPanel
 
     void ResumeButtonPressed()
     {
-        UIManager.Instance.TogglePause();
+        GameManager.Instance.TogglePause();
     }
 
     void MenuButtonPressed()
