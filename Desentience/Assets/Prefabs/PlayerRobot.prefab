@@ -6142,14 +6142,12 @@ GameObject:
   - component: {fileID: 8676746156529205101}
   - component: {fileID: 8676746156529205106}
   - component: {fileID: 8676746156529205103}
-  - component: {fileID: 8676746156529205097}
-  - component: {fileID: 8676746156529205102}
   - component: {fileID: 6929796367656416969}
   - component: {fileID: 6929796367656416966}
   - component: {fileID: 8676746156529205109}
   - component: {fileID: 8676746156529205108}
   m_Layer: 0
-  m_Name: PlayerRobot 1
+  m_Name: PlayerRobot
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6205,42 +6203,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8676746156529205097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8676746156529205107}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a92ec54870cc776409851073cc0414e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: PlayerBot
-  InputMapToCircular: 1
-  forwardInputFilter: 5
-  turnInputFilter: 5
---- !u!114 &8676746156529205102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8676746156529205107}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3ff9fc6348f5374789408cfd9e0c5db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  forwardMaxSpeed: 3
-  turnMaxSpeed: 120
-  projectile: {fileID: 7065312525605932920, guid: a8b07d322eefb7048a84d9329c82469b,
-    type: 3}
-  projectileSpeed: 5
-  projectileDelay: 50
-  destroyDelay: 3
-  fireRate: 0
 --- !u!136 &6929796367656416969
 CapsuleCollider:
   m_ObjectHideFlags: 0
