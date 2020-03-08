@@ -2,27 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TopDownCharacterController : MonoBehaviour
+public class RobotScript : MonoBehaviour
 {
-    public float speed;
-    public Transform playerModel;
-    public GameObject projectilePrefab;
-    public Transform projectileSpawnPoint;
-    public float fireRate;
-    public float bulletSpeed;
-    public float leanIntensity;
-    public float leanStep;
 
-    public float timeBetweenShots;
-    private float shotTimer = 0;
-    private Rigidbody rb;
-    private Vector3 aimPosition = Vector3.zero;
-    private Animator anim;
-
-    private float oldh;
-    private float oldv;
-
-    // *** Robot health variables ***
     public float maxHealth = 100;
     public float currentHealth = 100;
 
@@ -38,18 +20,18 @@ public class TopDownCharacterController : MonoBehaviour
     private float flashCount;
     private bool flashState;
     private bool dying = false;
-    // *** ***
 
-    private void Start()
+    private Rigidbody rb;
+    private Animator anim;
+
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
-        timeBetweenShots = 1f / fireRate;
 
         if (smoke_emitter == null)
         {
             Debug.LogError("No smoke emitter connected");
-        }
-        else
+        } else
         {
             smoke_emitter.Stop();
         }
@@ -66,8 +48,7 @@ public class TopDownCharacterController : MonoBehaviour
         if (head == null)
         {
             Debug.LogError("No head renderer connected");
-        }
-        else
+        } else
         {
             flashCount = 0;
             flashState = false;
@@ -82,6 +63,7 @@ public class TopDownCharacterController : MonoBehaviour
         {
             Debug.LogError("No flash material (on) connected");
         }
+
     }
 
     private void Awake()
@@ -89,7 +71,7 @@ public class TopDownCharacterController : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    private void FixedUpdate()
+    void Update()
     {
         if (currentHealth <= 0 && !dying)
         {
@@ -100,40 +82,6 @@ public class TopDownCharacterController : MonoBehaviour
         }
         if (!dying)
         {
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
-            rb.velocity = new Vector3(h, 0, v) * speed;
-
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            Quaternion currentRotation = playerModel.rotation;
-            float newh = Mathf.Lerp(oldh, h, leanStep);
-            float newv = Mathf.Lerp(oldv, v, leanStep);
-            Quaternion targetRotation = Quaternion.Euler(newv * leanIntensity, 0f, -newh * leanIntensity);
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector3 lookPosition = hit.point - transform.position;
-                lookPosition.y = 0;
-                aimPosition = hit.point;
-                Quaternion rotation = Quaternion.LookRotation(lookPosition);
-                targetRotation *= rotation;
-            }
-
-            playerModel.rotation = Quaternion.RotateTowards(currentRotation, targetRotation, Time.deltaTime * 1000);
-
-            shotTimer -= Time.deltaTime;
-            if (Input.GetMouseButton(0) && shotTimer <= 0) // Left Mouse button down,  later switch to a virtual buton "Fire1"
-            {
-                Fire();
-            }
-
-            oldh = newh;
-            oldv = newv;
-
-
-            // *** Robot health code ***
             float healthRatio = currentHealth / maxHealth;
 
             if (!healthLow && healthRatio < 0.5f) healthLow = true;
@@ -185,7 +133,6 @@ public class TopDownCharacterController : MonoBehaviour
                 matArray[0] = flashMaterialOff;
                 head.materials = matArray;
             }
-            // *** ***
         } else
         {
             anim.SetBool("dying", true);
@@ -202,24 +149,7 @@ public class TopDownCharacterController : MonoBehaviour
                 }
             }
         }
-
     }
-
-    private void Fire()
-    {
-        GameObject projectile = Instantiate(projectilePrefab);
-        projectile.transform.position = projectileSpawnPoint.position;
-        Vector3 velocity = (aimPosition - transform.position).normalized * bulletSpeed;
-        projectile.transform.LookAt(aimPosition);
-
-        Rigidbody projRb = projectile.GetComponent<Rigidbody>();
-        projRb.velocity = velocity;
-
-        shotTimer = timeBetweenShots;
-
-        anim.Play("shoot");
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bullet")
@@ -234,7 +164,7 @@ public class TopDownCharacterController : MonoBehaviour
                     currentHealth -= 20;
                 }
             }
-            
+
         }
     }
 }

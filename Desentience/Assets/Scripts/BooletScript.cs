@@ -6,6 +6,8 @@ public class BooletScript : MonoBehaviour
 {
     public float destroyDelay = 10f;
 
+    public bool hasCollided = false;
+
     void Start()
     {
         if (destroyDelay > 0)

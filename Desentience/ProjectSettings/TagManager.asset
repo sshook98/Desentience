@@ -6,8 +6,8 @@ TagManager:
   tags:
   - Square
   - Wall
-  - Boolet
   - Laserbeam
+  - Bullet
   layers:
   - Default
   - TransparentFX

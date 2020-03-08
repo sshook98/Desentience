@@ -9,7 +9,7 @@ public class TopDownCameraController : MonoBehaviour
 
     private void Awake()
     {
-        target = GameManager.Instance.player.transform;
+        //target = GameManager.Instance.player.transform;
     }
     private void Start()
     {
