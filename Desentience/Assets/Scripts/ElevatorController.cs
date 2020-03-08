@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ElevatorController : MonoBehaviour
 {
+    private bool elevatorIsAvailable = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +16,10 @@ public class ElevatorController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ActivateElevator()
+    {
+        elevatorIsAvailable = true;
     }
 }
