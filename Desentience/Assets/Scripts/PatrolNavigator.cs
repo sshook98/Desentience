@@ -127,7 +127,7 @@ public class PatrolNavigator : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        print(collision.gameObject.tag);
+        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.tag == "Bullet") {
             if (health > 0)
             {
@@ -135,7 +135,7 @@ public class PatrolNavigator : MonoBehaviour
             }
             if (health <= 0)
             {
-                print("DEATH");
+                Debug.Log("DEATH");
             }
         }
     }

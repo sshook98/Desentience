@@ -7,13 +7,15 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
-    private static GameManager instance;
+    public static GameManager instance;
 
     //References we want stored in the GameManager
     public GameObject player;
 
     [SerializeField]
     private string gameScene = "ZachTestingScene";
+    [SerializeField]
+    private bool isPaused = false;
 
     //Awake is always called before any Start functions
     void Awake()
@@ -33,8 +35,19 @@ public class GameManager : MonoBehaviour
 
     }
 
-    [SerializeField]
-    private bool isPaused = false;
+    private void Start()
+    {
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+
+            if (player == null)
+            {
+                Debug.LogError("Could not find player object in scene, should be tagged as Player");
+            }
+        }
+    }
+
 
     public bool IsPaused()
     {

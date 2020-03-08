@@ -178,8 +178,9 @@ MonoBehaviour:
   - {fileID: 67080024}
   detectionRadius: 10
   chaseRadius: 15
-  target: {fileID: 0}
+  target: {fileID: 1663485647}
   isChasing: 0
+  health: 0
 --- !u!195 &12773099
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -737,8 +738,9 @@ MonoBehaviour:
   - {fileID: 646886830}
   detectionRadius: 10
   chaseRadius: 15
-  target: {fileID: 0}
+  target: {fileID: 1663485647}
   isChasing: 0
+  health: 0
 --- !u!195 &422256868
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -867,6 +869,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  gameScene: ZachTestingScene
+  isPaused: 0
 --- !u!4 &482096361
 Transform:
   m_ObjectHideFlags: 0
@@ -4950,7 +4954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 1726233847}
-  secondPanel: {fileID: 0}
+  mainMenu: {fileID: 0}
   _currentPanel: {fileID: 0}
 --- !u!114 &1108259737
 MonoBehaviour:
@@ -5284,8 +5288,9 @@ MonoBehaviour:
   - {fileID: 1914548218}
   detectionRadius: 10
   chaseRadius: 15
-  target: {fileID: 0}
+  target: {fileID: 1663485647}
   isChasing: 0
+  health: 0
 --- !u!1001 &1490619350
 PrefabInstance:
   m_ObjectHideFlags: 0
