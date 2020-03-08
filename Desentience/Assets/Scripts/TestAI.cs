@@ -16,6 +16,7 @@ public class TestAI : MonoBehaviour
     public Transform projectileSpawnPoint;
     public float fireRate;
     public float bulletSpeed;
+    public float bulletLifetime;
     public float timeBetweenShots;
     private float shotTimer = 0;
 
@@ -80,6 +81,8 @@ public class TestAI : MonoBehaviour
         projectile.transform.position = projectileSpawnPoint.position;
         Vector3 velocity = (aimPosition - playerModel.position).normalized * bulletSpeed;
         projectile.transform.LookAt(aimPosition);
+
+        projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;
 
         Rigidbody projRb = projectile.GetComponent<Rigidbody>();
         projRb.velocity = velocity;

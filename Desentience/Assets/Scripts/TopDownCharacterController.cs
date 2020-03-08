@@ -10,6 +10,7 @@ public class TopDownCharacterController : MonoBehaviour
     public Transform projectileSpawnPoint;
     public float fireRate;
     public float bulletSpeed;
+    public float bulletLifetime;
     public float leanIntensity;
     public float leanStep;
 
@@ -39,6 +40,9 @@ public class TopDownCharacterController : MonoBehaviour
     private bool flashState;
     private bool dying = false;
     // *** ***
+
+    public GameObject shrapnelPrefab;
+    public Material[] shrapnelMaterials;
 
     private void Start()
     {
@@ -212,6 +216,8 @@ public class TopDownCharacterController : MonoBehaviour
         Vector3 velocity = (aimPosition - transform.position).normalized * bulletSpeed;
         projectile.transform.LookAt(aimPosition);
 
+        projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;
+
         Rigidbody projRb = projectile.GetComponent<Rigidbody>();
         projRb.velocity = velocity;
 
@@ -232,6 +238,19 @@ public class TopDownCharacterController : MonoBehaviour
                 if (currentHealth > 0)
                 {
                     currentHealth -= 20;
+
+                    //spawn shrapnel
+                    for (int i = 0; i < Random.Range(10, 20); i++)
+                    {
+                        GameObject shrapnel = Instantiate(shrapnelPrefab);
+                        shrapnel.transform.position = playerModel.position + Random.onUnitSphere;
+                        shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
+                        Vector3 velocity = Random.insideUnitSphere * 5;
+                        Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
+                        projRb.velocity = velocity;
+                        shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
+                        shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
+                    }
                 }
             }
             

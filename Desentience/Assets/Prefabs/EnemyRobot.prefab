@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 890973250644719621}
   - component: {fileID: 5012081697161277749}
   - component: {fileID: 8188893333445396369}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 281305209626026416}
   - component: {fileID: 281305209626026383}
   - component: {fileID: 281305209626026382}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bodylight4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 281305209805246028}
   - component: {fileID: 281305209805246027}
   - component: {fileID: 281305209805246026}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bodylight2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 281305211129389421}
   - component: {fileID: 281305211129389420}
   - component: {fileID: 281305211129389419}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bodylight3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 281305211539384511}
   - component: {fileID: 281305211539384510}
   - component: {fileID: 281305211539384509}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bodylight1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -481,7 +481,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3704750891136949719}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BulletSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -512,7 +512,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7522796782690256103}
   - component: {fileID: 5195894440104649280}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: booster light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -608,7 +608,7 @@ GameObject:
   - component: {fileID: 2721788846100761041}
   - component: {fileID: 1495927800830242396}
   - component: {fileID: 1495927800830242397}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EnemyRobot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -698,6 +698,13 @@ MonoBehaviour:
   flashMaterialOff: {fileID: 2100000, guid: ceb6a380b9e33c54c91afc5f4089214f, type: 2}
   flashMaterialOn: {fileID: 2100000, guid: 5532ec7c28976c34b88f60a9063fd5b0, type: 2}
   flashTime: 1
+  shrapnelPrefab: {fileID: 122015754777258525, guid: 071829f80268dcd43b8061c03bb94e25,
+    type: 3}
+  shrapnelMaterials:
+  - {fileID: 2100000, guid: aec2472db1425214698df34dc47aa12c, type: 2}
+  - {fileID: 2100000, guid: 17cbf1063c35d684fb4d51da8afd3090, type: 2}
+  - {fileID: 2100000, guid: 46e037827568a99448b8170190f8363c, type: 2}
+  robotModel: {fileID: 1369400185255221499}
 --- !u!114 &1495927800830242396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,7 +749,7 @@ GameObject:
   - component: {fileID: 2609947079147073453}
   - component: {fileID: 2609947079147073455}
   - component: {fileID: 2609947079147073454}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: explosion_emitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5553,7 +5560,7 @@ GameObject:
   - component: {fileID: 2718760998806366138}
   - component: {fileID: 6439906583715227740}
   - component: {fileID: 2474151995527234050}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: smoke_emitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10307,7 +10314,7 @@ GameObject:
   - component: {fileID: 372619745020413080}
   - component: {fileID: 1272265065299960555}
   - component: {fileID: 6497183117510673054}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: gunbarrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10401,7 +10408,7 @@ GameObject:
   - component: {fileID: 5365613388581853311}
   - component: {fileID: 1524210785147308021}
   - component: {fileID: 6782030012375204185}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: gunmount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10494,7 +10501,7 @@ GameObject:
   - component: {fileID: 6905228244334551527}
   - component: {fileID: 2551471640675635510}
   - component: {fileID: 5689087213503760104}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10573,7 +10580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 454866287946233418}
   - component: {fileID: 8685745301145845061}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: eye light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10665,7 +10672,7 @@ GameObject:
   - component: {fileID: 121834086330302120}
   - component: {fileID: 651541664169633452}
   - component: {fileID: 166202517819950728}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10743,7 +10750,7 @@ GameObject:
   - component: {fileID: 4810056119544187026}
   - component: {fileID: 7911754671136378814}
   - component: {fileID: 2315870035394755542}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10824,7 +10831,7 @@ GameObject:
   - component: {fileID: 979647451933868367}
   - component: {fileID: 413024206365894428}
   - component: {fileID: 1329969034106198314}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: booster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10902,7 +10909,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6718403020368043473}
   - component: {fileID: 1022270499428359900}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: enemyhead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10947,7 +10954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7902643508698666431}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShootRotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10981,7 +10988,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1369400185255221499}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RobotModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11015,7 +11022,7 @@ GameObject:
   - component: {fileID: 2951954188088086365}
   - component: {fileID: 4308432477241798602}
   - component: {fileID: 5747101508440950917}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: gunarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
