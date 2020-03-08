@@ -25,6 +25,14 @@ public class TestAI : MonoBehaviour
     public float wanderTimer;
     private float timer;
 
+    public float leanIntensity;
+    public float leanStep;
+
+    private float oldh;
+    private float oldv;
+    private Vector3 speed;
+    private Vector3 lastPos = Vector3.zero;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -37,24 +45,28 @@ public class TestAI : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+
         if (!inCombat) 
         {
-            inCombat = ((target.transform.position - transform.position).magnitude < detectionRadius) ? true : false;
+            inCombat = ((target.transform.position - playerModel.position).magnitude < detectionRadius) ? true : false;
         }
 
         if (inCombat) 
         {
             agent.isStopped = false;
-            transform.LookAt(target.transform);
+
+            playerModel.LookAt(target.transform);
+
+
             timer += Time.deltaTime;
             if (timer >= wanderTimer) 
             {
-                Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+                Vector3 newPos = RandomNavSphere(playerModel.position, wanderRadius, -1);
                 agent.SetDestination(newPos);
                 timer = 0;
             }
         }
-        
+
         shotTimer -= Time.deltaTime;
         if (inCombat && shotTimer <= 0)
         {
@@ -66,7 +78,7 @@ public class TestAI : MonoBehaviour
         aimPosition = target.transform.position;
         GameObject projectile = Instantiate(projectilePrefab);
         projectile.transform.position = projectileSpawnPoint.position;
-        Vector3 velocity = (aimPosition - transform.position).normalized * bulletSpeed;
+        Vector3 velocity = (aimPosition - playerModel.position).normalized * bulletSpeed;
         projectile.transform.LookAt(aimPosition);
 
         Rigidbody projRb = projectile.GetComponent<Rigidbody>();

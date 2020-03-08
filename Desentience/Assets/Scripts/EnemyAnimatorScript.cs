@@ -4,22 +4,19 @@ using UnityEngine;
 
 public class EnemyAnimatorScript : MonoBehaviour
 {
-    public float speed;
     public Transform robotModel;
     public float leanIntensity;
-    public float maxSpeed;
+    
+    private Vector3 speed;
+    private Vector3 lastPos = Vector3.zero;
 
-    private Rigidbody rb;
-
-
-    private void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
     private void FixedUpdate()
     {
-        float h = rb.velocity.x / maxSpeed;
-        float v = rb.velocity.z / maxSpeed;
+        speed = (transform.position - lastPos);
+        lastPos = transform.position;
+
+        float h = speed.x;
+        float v = speed.z;
 
         robotModel.rotation = Quaternion.Euler(v * leanIntensity, 0f, -h * leanIntensity);
     }
