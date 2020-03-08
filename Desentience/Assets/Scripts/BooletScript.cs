@@ -7,12 +7,17 @@ public class BooletScript : MonoBehaviour
     public float destroyDelay = 10f;
 
     public bool hasCollided = false;
+    private bool setDestroy = false;
 
-    void Start()
+    void Update()
     {
-        if (destroyDelay > 0)
+        if (!setDestroy)
         {
-            Destroy(gameObject, destroyDelay);
+            if (destroyDelay > 0)
+            {
+                Destroy(gameObject, destroyDelay);
+                setDestroy = true;
+            }
         }
     }
 

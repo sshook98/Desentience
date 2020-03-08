@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4400943065448629378}
   - component: {fileID: 8676746155994311507}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: playerhead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 2517236331337880001}
   - component: {fileID: 1000915540625397485}
   - component: {fileID: 4615162759684219525}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 4610429369627982004}
   - component: {fileID: 4847949512117733477}
   - component: {fileID: 3376704905894027195}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 6645771819493972297}
   - component: {fileID: 6645771819493972295}
   - component: {fileID: 6645771819493972294}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: explosion_emitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5030,7 +5030,7 @@ GameObject:
   - component: {fileID: 6929796366933838553}
   - component: {fileID: 6929796366933838550}
   - component: {fileID: 6929796366933838551}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bodylight3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5123,7 +5123,7 @@ GameObject:
   - component: {fileID: 6929796367202420192}
   - component: {fileID: 6929796367202420193}
   - component: {fileID: 6929796367202351646}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gunmount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5215,7 +5215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6929796367245342137}
   - component: {fileID: 6929796367245342136}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: booster light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5307,7 +5307,7 @@ GameObject:
   - component: {fileID: 6929796367459922606}
   - component: {fileID: 6929796367459922608}
   - component: {fileID: 6929796367459922609}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: smoke_emitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10059,7 +10059,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6929796367617158545}
   - component: {fileID: 6929796367617158544}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: eye light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10149,7 +10149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6929796367906833618}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ShootRotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10186,7 +10186,7 @@ GameObject:
   - component: {fileID: 6929796368255695664}
   - component: {fileID: 6929796368255695665}
   - component: {fileID: 6929796368255695662}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gunarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10279,7 +10279,7 @@ GameObject:
   - component: {fileID: 6929796368471418663}
   - component: {fileID: 6929796368471418660}
   - component: {fileID: 6929796368471418661}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bodylight2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10372,7 +10372,7 @@ GameObject:
   - component: {fileID: 6929796368534495975}
   - component: {fileID: 6929796368534495972}
   - component: {fileID: 6929796368534495973}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bodylight4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10465,7 +10465,7 @@ GameObject:
   - component: {fileID: 6929796368538854742}
   - component: {fileID: 6929796368538854743}
   - component: {fileID: 6929796368538854740}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bodylight1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10558,7 +10558,7 @@ GameObject:
   - component: {fileID: 6929796368793971002}
   - component: {fileID: 6929796368793971003}
   - component: {fileID: 6929796368793971000}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gunbarrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10649,7 +10649,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6929796369025053131}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BulletSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10681,7 +10681,7 @@ GameObject:
   - component: {fileID: 8676746154711397084}
   - component: {fileID: 8676746154711397081}
   - component: {fileID: 8676746154711397086}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: booster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10760,7 +10760,7 @@ GameObject:
   - component: {fileID: 8676746155125200298}
   - component: {fileID: 8676746155125200295}
   - component: {fileID: 8676746155125200292}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10839,7 +10839,7 @@ GameObject:
   - component: {fileID: 8676746155519335468}
   - component: {fileID: 8676746155519335469}
   - component: {fileID: 3713010991671912834}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10936,7 +10936,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8676746156526879056}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RobotModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10972,7 +10972,7 @@ GameObject:
   - component: {fileID: 6929796367656416966}
   - component: {fileID: 8676746156529205108}
   - component: {fileID: 5471518935308914037}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerRobot
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -11048,6 +11048,7 @@ MonoBehaviour:
   projectileSpawnPoint: {fileID: 6929796369025053131}
   fireRate: 5
   bulletSpeed: 25
+  bulletLifetime: 1
   leanIntensity: 10
   leanStep: 0.15
   timeBetweenShots: 0
@@ -11059,6 +11060,12 @@ MonoBehaviour:
   flashMaterialOff: {fileID: 2100000, guid: ceb6a380b9e33c54c91afc5f4089214f, type: 2}
   flashMaterialOn: {fileID: 2100000, guid: 5532ec7c28976c34b88f60a9063fd5b0, type: 2}
   flashTime: 1
+  shrapnelPrefab: {fileID: 122015754777258525, guid: 071829f80268dcd43b8061c03bb94e25,
+    type: 3}
+  shrapnelMaterials:
+  - {fileID: 2100000, guid: aec2472db1425214698df34dc47aa12c, type: 2}
+  - {fileID: 2100000, guid: 17cbf1063c35d684fb4d51da8afd3090, type: 2}
+  - {fileID: 2100000, guid: 46e037827568a99448b8170190f8363c, type: 2}
 --- !u!114 &8676746156529205108
 MonoBehaviour:
   m_ObjectHideFlags: 0
