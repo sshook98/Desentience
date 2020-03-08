@@ -33,10 +33,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-    }
-
-    private void Start()
-    {
         if (player == null)
         {
             player = GameObject.FindWithTag("Player");
@@ -46,7 +42,9 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("Could not find player object in scene, should be tagged as Player");
             }
         }
+
     }
+
 
 
     public bool IsPaused()
