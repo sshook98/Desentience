@@ -256,4 +256,19 @@ public class TopDownCharacterController : MonoBehaviour
             
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "KeyCard")
+        {
+            other.gameObject.SetActive(false);
+            GameManager.instance.CollectKeyCard();
+        } else if (other.tag == "Elevator")
+        {
+            if (GameManager.instance.IsElevatorAvailable())
+            {
+                GameManager.instance.HandleLevelComplete();
+            }
+        }
+    }
 }
