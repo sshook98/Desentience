@@ -256,4 +256,20 @@ public class TopDownCharacterController : MonoBehaviour
             
         }
     }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.tag == "HealthPickup")
+        {
+            if (currentHealth < maxHealth)
+            {
+                currentHealth += maxHealth / 2;
+                if (currentHealth > maxHealth)
+                {
+                    currentHealth = maxHealth;
+                }
+                Destroy(collider.gameObject);
+            }
+        }
+    }
 }
