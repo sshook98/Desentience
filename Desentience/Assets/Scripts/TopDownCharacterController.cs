@@ -203,6 +203,7 @@ public class TopDownCharacterController : MonoBehaviour
                 if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                 {
                     Destroy(gameObject);
+                    GameManager.Instance.PlayerDeath();
                 }
             }
         }

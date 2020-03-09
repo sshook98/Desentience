@@ -141,6 +141,12 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void PlayerDeath()
+    {
+        Debug.Log("Player Died");
+        UIManager.Instance.TriggerPanelTransition(UIManager.Instance.gameOverMenu);
+    }
+
     public void ReturnToMainMenu()
     {
         LoadScene("TitleScreen");
