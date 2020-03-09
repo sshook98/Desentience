@@ -9,6 +9,7 @@ TagManager:
   - Laserbeam
   - Bullet
   - KeyCard
+  - HealthPickup
   layers:
   - Default
   - TransparentFX

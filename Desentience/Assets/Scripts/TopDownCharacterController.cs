@@ -238,7 +238,7 @@ public class TopDownCharacterController : MonoBehaviour
                 hitBooletScript.hasCollided = true;
                 if (currentHealth > 0)
                 {
-                    currentHealth -= 20;
+                    //currentHealth -= 20;
 
                     //spawn shrapnel
                     for (int i = 0; i < Random.Range(10, 20); i++)
