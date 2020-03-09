@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
         //TODO
         //*
         //Move these to Awake() of their respective scripts
+        /**
         if (player == null)
         {
             player = GameObject.FindWithTag("Player");
@@ -86,10 +87,9 @@ public class GameManager : MonoBehaviour
             }
         }
         //Move these to Awake() of their respective scripts
+        **/
         //*
         //TODO
-
-    }
 
     public bool IsPaused()
     {
