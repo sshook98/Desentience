@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ElevatorController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool elevatorActivated = false;
+
+    public bool isElevatorActivated()
     {
-        
+        return elevatorActivated;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void actiateElevator()
     {
-        
+        elevatorActivated = true;
     }
 }

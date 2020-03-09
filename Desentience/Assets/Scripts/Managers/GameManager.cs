@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(DDOL))]
 public class GameManager : MonoBehaviour
 {
-
     public static GameManager instance;
 
     //References we want stored in the GameManager
@@ -18,6 +17,7 @@ public class GameManager : MonoBehaviour
     private bool isPaused = false;
 
     public bool keyCardCollected = false;
+    private ElevatorController elevator;    
 
     //Awake is always called before any Start functions
     void Awake()
@@ -33,8 +33,12 @@ public class GameManager : MonoBehaviour
         {
             //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
             Destroy(gameObject);
-        }
+        }        
 
+    }
+
+    private void Start()
+    {
         if (player == null)
         {
             player = GameObject.FindWithTag("Player");
@@ -45,9 +49,19 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (elevator == null)
+        {
+            GameObject go = GameObject.FindWithTag("Elevator");
+
+            if (go != null && go.GetComponent<ElevatorController>() != null)
+            {
+                elevator = go.GetComponent<ElevatorController>();
+            } else
+            {
+                Debug.LogError("Could not find elevator object, should be tagged as Elevator");
+            }
+        }
     }
-
-
 
     public bool IsPaused()
     {
@@ -98,6 +112,22 @@ public class GameManager : MonoBehaviour
 
     public void CollectKeyCard() 
     {
-         keyCardCollected = true;
+        keyCardCollected = true;
+        elevator.actiateElevator();
+    }
+
+    public bool IsElevatorAvailable()
+    {
+        if (elevator != null)
+        {
+            return elevator.isElevatorActivated();
+        }
+
+        return false;
+    }
+
+    public void HandleLevelComplete()
+    {
+        Debug.Log("Level Complete");
     }
 }
