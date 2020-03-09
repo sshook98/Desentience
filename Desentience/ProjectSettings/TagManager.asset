@@ -9,6 +9,7 @@ TagManager:
   - Laserbeam
   - Bullet
   - KeyCard
+  - RemovableWall
   layers:
   - Default
   - TransparentFX

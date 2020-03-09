@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private bool isPaused = false;
 
+    public bool keyCardCollected = false;
+
     //Awake is always called before any Start functions
     void Awake()
     {
@@ -94,4 +96,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void CollectKeyCard() 
+    {
+         keyCardCollected = true;
+    }
 }
