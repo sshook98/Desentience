@@ -150,7 +150,7 @@ public class RobotScript : MonoBehaviour
                 }
                 if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                 {
-                    Destroy(gameObject);
+                    Destroy(transform.parent.gameObject);
                 }
             }
         }
