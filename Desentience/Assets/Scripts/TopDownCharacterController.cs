@@ -198,7 +198,9 @@ public class TopDownCharacterController : MonoBehaviour
                 }
                 if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                 {
+                    GameManager.instance.HandlePlayerDeath();
                     Destroy(gameObject);
+                    GameManager.Instance.PlayerDeath();
                 }
             }
         }
@@ -271,13 +273,13 @@ public class TopDownCharacterController : MonoBehaviour
         if (other.tag == "KeyCard")
         {
             other.gameObject.SetActive(false);
-            GameManager.instance.CollectKeyCard();
+            GameManager.Instance.CollectKeyCard();
         }
         else if (other.tag == "Elevator")
         {
-            if (GameManager.instance.IsElevatorAvailable())
+            if (GameManager.Instance.IsElevatorAvailable())
             {
-                GameManager.instance.HandleLevelComplete();
+                GameManager.Instance.HandleLevelComplete();
             }
         }
         else if (other.tag == "HealthPickup")

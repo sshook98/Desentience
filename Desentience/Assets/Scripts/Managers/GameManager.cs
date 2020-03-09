@@ -6,11 +6,34 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(DDOL))]
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+
+    private static GameManager instance;
+    //Neat lil C# getter for the GameManager instance
+    public static GameManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
 
     //References we want stored in the GameManager
+    //GameObjects assign themselves during Awake(), since the GameManager is pre-loaded and thus already awake
+    //Game flow is:
+    //  TitleScreen is loaded, GameManager and UIManager Awake()
+    //  Player presses "Wake Up"
+    //    -Can also make this automatic when using the editor, for ease of testing
+    //  Scene specified by 'gameScene' string is loaded
+    //  All monobehaviors Awake()
+    //    -This is where they assign themselves to the manager
+    //  Monobehaviors call Start() when first used. It is safe to use the GameManager at this point, as everything has been assigned (barring bugs)
     public GameObject player;
 
+    //TODO
+    //Add a public enum corresponding to each testing scene and the actual FirstLevel scene
+    //This would let us change which scene will load from a drop-down in the editor
+
+    //Right now, change gameScene to the name of the scene you want to load
     [SerializeField]
     private string gameScene = "ZachTestingScene";
     [SerializeField]
@@ -37,8 +60,10 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void Start()
-    {
+        //TODO
+        //*
+        //Move these to Awake() of their respective scripts
+        /**
         if (player == null)
         {
             player = GameObject.FindWithTag("Player");
@@ -61,7 +86,10 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("Could not find elevator object, should be tagged as Elevator");
             }
         }
-    }
+        //Move these to Awake() of their respective scripts
+        **/
+        //*
+        //TODO
 
     public bool IsPaused()
     {
@@ -70,11 +98,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("escape"))
+        if (Input.GetKeyDown("escape") && SceneManager.GetActiveScene().name != "TitleScreen")
         {
             TogglePause();
         }
-
     }
 
     public void TogglePause()
@@ -94,20 +121,33 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        LoadScene("ZachTestingScene");
+        LoadScene(gameScene);
         UIManager.Instance.TriggerPanelTransition(null);
     }
 
-    public void LoadScene(string sceneName)
+    public void QuitGame()
     {
-        SceneManager.LoadScene(sceneName);
+        Debug.Log("Quittin' time");
+        Application.Quit();
     }
 
-    public static GameManager Instance
+    public void PlayerDeath()
     {
-        get {
-            return instance;
-        }
+        Debug.Log("Player Died");
+        UIManager.Instance.TriggerPanelTransition(UIManager.Instance.gameOverMenu);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        LoadScene("TitleScreen");
+        Time.timeScale = 1.0f;
+        isPaused = false;
+        UIManager.Instance.TriggerPanelTransition(UIManager.Instance.mainMenu);
+    }
+
+    private void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 
     public void CollectKeyCard() 
@@ -128,6 +168,9 @@ public class GameManager : MonoBehaviour
 
     public void HandleLevelComplete()
     {
-        Debug.Log("Level Complete");
+        // show win screen here or load a different level
+        UIManager.Instance.TriggerPanelTransition(UIManager.Instance.levelCompleteMenu);
+        Debug.Log("Level Complete!");
     }
+
 }

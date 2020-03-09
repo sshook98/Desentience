@@ -8,9 +8,19 @@ public class UIManager : MonoBehaviour
 {
 
     private static UIManager instance;
+    //Public getter for instance
+    public static UIManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
 
     public Pause_UIPanel pauseMenu;
     public Main_UIPanel mainMenu;
+    public GameOver_UIPanel gameOverMenu;
+    public LevelComplete_UIPanel levelCompleteMenu;
 
     [SerializeField]
     private Base_UIPanel _currentPanel;
@@ -60,14 +70,6 @@ public class UIManager : MonoBehaviour
     void TriggerClosePanel(Base_UIPanel panel)
     {
         panel.CloseBehavior();
-    }
-
-    public static UIManager Instance
-    {
-        get
-        {
-            return instance;
-        }
     }
 
 }
