@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - KeyCard
   - RemovableWall
+  - HealthPickup
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Player
   - Enemy
   - Shrapnel
-  - 
+  - Projectiles
   - 
   - 
   - 

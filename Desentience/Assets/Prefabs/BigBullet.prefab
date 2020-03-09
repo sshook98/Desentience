@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 294510603596332373}
   - component: {fileID: 7398241351870202220}
   - component: {fileID: 7641154757741745797}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BigBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -122,5 +122,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf451e7967ef2548ade73d1db3bf855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyDelay: 0
+  destroyDelay: 60
   hasCollided: 0

@@ -69,6 +69,19 @@ public class LaserBeamController : MonoBehaviour
                         activateBeam();
                     }
                 }
+            } else
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out hit, Mathf.Infinity))
+                {
+                    Vector3 midpoint = (hit.point + transform.position) / 2;
+                    Debug.DrawRay(transform.position, (hit.point - transform.position));
+                    if (beam != null)
+                    {
+                        beam.transform.position = midpoint;
+                        beam.transform.localScale = new Vector3(0.05f, (hit.point - transform.position).magnitude / 2 + 0.25f, 0.05f);
+                    }
+                }
             }
         }
         
