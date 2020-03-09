@@ -2147,6 +2147,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 1787510470}
   mainMenu: {fileID: 1419268341}
   gameOverMenu: {fileID: 1652608413}
+  levelCompleteMenu: {fileID: 768670361}
   _currentPanel: {fileID: 0}
 --- !u!114 &1313431272
 MonoBehaviour:

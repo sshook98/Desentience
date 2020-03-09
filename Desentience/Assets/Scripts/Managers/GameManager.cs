@@ -144,6 +144,8 @@ public class GameManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         LoadScene("TitleScreen");
+        Time.timeScale = 1.0f;
+        isPaused = false;
         UIManager.Instance.TriggerPanelTransition(UIManager.Instance.mainMenu);
     }
 
