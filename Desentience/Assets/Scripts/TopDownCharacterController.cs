@@ -11,6 +11,8 @@ public class TopDownCharacterController : MonoBehaviour
     public float fireRate;
     public float bulletSpeed;
     public float bulletLifetime;
+    public int bulletDamage = 5;
+    public int laserDamage = 1;
     public float leanIntensity;
     public float leanStep;
 
@@ -95,13 +97,6 @@ public class TopDownCharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (currentHealth <= 0 && !dying)
-        {
-            Material[] matArray = head.materials;
-            matArray[0] = flashMaterialOn;
-            head.materials = matArray;
-            dying = true;
-        }
         if (!dying)
         {
             float h = Input.GetAxis("Horizontal");
@@ -227,6 +222,19 @@ public class TopDownCharacterController : MonoBehaviour
         anim.Play("shoot");
     }
 
+    private void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        if (currentHealth <= 0 && !dying)
+        {
+            Material[] matArray = head.materials;
+            matArray[0] = flashMaterialOn;
+            head.materials = matArray;
+            dying = true;
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bullet")
@@ -238,7 +246,7 @@ public class TopDownCharacterController : MonoBehaviour
                 hitBooletScript.hasCollided = true;
                 if (currentHealth > 0)
                 {
-                    //currentHealth -= 20;
+                    TakeDamage(bulletDamage);
 
                     //spawn shrapnel
                     for (int i = 0; i < Random.Range(10, 20); i++)
@@ -258,9 +266,21 @@ public class TopDownCharacterController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider collider)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collider.gameObject.tag == "HealthPickup")
+        if (other.tag == "KeyCard")
+        {
+            other.gameObject.SetActive(false);
+            GameManager.instance.CollectKeyCard();
+        }
+        else if (other.tag == "Elevator")
+        {
+            if (GameManager.instance.IsElevatorAvailable())
+            {
+                GameManager.instance.HandleLevelComplete();
+            }
+        }
+        else if (other.tag == "HealthPickup")
         {
             if (currentHealth < maxHealth)
             {
@@ -269,8 +289,11 @@ public class TopDownCharacterController : MonoBehaviour
                 {
                     currentHealth = maxHealth;
                 }
-                Destroy(collider.gameObject);
+                other.gameObject.SetActive(false);
             }
+        } else if (other.tag == "Laserbeam")
+        {
+            TakeDamage(laserDamage);
         }
     }
 }
