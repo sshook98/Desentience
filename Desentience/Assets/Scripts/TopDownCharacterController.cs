@@ -26,6 +26,9 @@ public class TopDownCharacterController : MonoBehaviour
     // *** Robot health variables ***
     public float maxHealth = 100;
     public float currentHealth = 100;
+    public int bulletDamage = 20;
+    public int laserBeamDamage = 5;
+    public float timeBetweenLaserBeamDamage = 0.5f;
 
     public ParticleSystem smoke_emitter;
     public ParticleSystem explosion_emitter;
@@ -39,6 +42,7 @@ public class TopDownCharacterController : MonoBehaviour
     private float flashCount;
     private bool flashState;
     private bool dying = false;
+    private float timeSinceLastLaserBeamDamage = -1;
     // *** ***
 
     public GameObject shrapnelPrefab;
@@ -95,6 +99,7 @@ public class TopDownCharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        timeSinceLastLaserBeamDamage += Time.deltaTime;
         if (currentHealth <= 0 && !dying)
         {
             Material[] matArray = head.materials;
@@ -226,6 +231,11 @@ public class TopDownCharacterController : MonoBehaviour
         anim.Play("shoot");
     }
 
+    private void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bullet")
@@ -237,7 +247,7 @@ public class TopDownCharacterController : MonoBehaviour
                 hitBooletScript.hasCollided = true;
                 if (currentHealth > 0)
                 {
-                    currentHealth -= 20;
+                    TakeDamage(bulletDamage);
 
                     //spawn shrapnel
                     for (int i = 0; i < Random.Range(10, 20); i++)
@@ -270,17 +280,25 @@ public class TopDownCharacterController : MonoBehaviour
             {
                 GameManager.instance.HandleLevelComplete();
             }
-            else if (other.gameObject.tag == "HealthPickup")
+            
+        }
+        else if (other.gameObject.tag == "HealthPickup")
+        {
+            if (currentHealth < maxHealth)
             {
-                if (currentHealth < maxHealth)
+                currentHealth += maxHealth / 2;
+                if (currentHealth > maxHealth)
                 {
-                    currentHealth += maxHealth / 2;
-                    if (currentHealth > maxHealth)
-                    {
-                        currentHealth = maxHealth;
-                    }
-                    other.gameObject.SetActive(false);
+                    currentHealth = maxHealth;
                 }
+                other.gameObject.SetActive(false);
+            }
+        } else if (other.gameObject.tag == "Laserbeam")
+        {
+            if (timeSinceLastLaserBeamDamage > timeBetweenLaserBeamDamage)
+            {
+                TakeDamage(laserBeamDamage);
+                timeSinceLastLaserBeamDamage = 0;
             }
         }
     }
