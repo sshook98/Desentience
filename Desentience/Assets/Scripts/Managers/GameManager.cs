@@ -6,11 +6,16 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(DDOL))]
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+
+    private static GameManager instance;
 
     //References we want stored in the GameManager
+    //GameObjects assign themselves during Awake(), since the GameManager is pre-loaded and thus already awake
+    //Game flow is:
     public GameObject player;
 
+    //TODO
+    //Add a public enum corresponding to each testing scene and the actual FirstLevel scene
     [SerializeField]
     private string gameScene = "ZachTestingScene";
     [SerializeField]
@@ -72,8 +77,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-
     public bool IsPaused()
     {
         return isPaused;
@@ -81,11 +84,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("escape"))
+        if (Input.GetKeyDown("escape") && SceneManager.GetActiveScene().name != "TitleScreen")
         {
             TogglePause();
         }
-
     }
 
     public void TogglePause()
@@ -105,20 +107,18 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        LoadScene("ZachTestingScene");
+        LoadScene(gameScene);
         UIManager.Instance.TriggerPanelTransition(null);
     }
 
-    public void LoadScene(string sceneName)
+    public void QuitGame()
     {
-        SceneManager.LoadScene(sceneName);
+        Application.Quit();
     }
 
-    public static GameManager Instance
+    private void LoadScene(string sceneName)
     {
-        get {
-            return instance;
-        }
+        SceneManager.LoadScene(sceneName);
     }
 
     public void CollectKeyCard()
@@ -147,9 +147,5 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Level Complete!");
     }
-
-
-
-
 
 }
