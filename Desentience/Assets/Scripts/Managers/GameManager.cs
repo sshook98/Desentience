@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(DDOL))]
 public class GameManager : MonoBehaviour
 {
+
     public static GameManager instance;
 
     //References we want stored in the GameManager
@@ -15,11 +16,6 @@ public class GameManager : MonoBehaviour
     private string gameScene = "ZachTestingScene";
     [SerializeField]
     private bool isPaused = false;
-
-    private ElevatorController elevator;
-    private KeyCardController keyCard;
-
-    private bool keyCardCollected = false;
 
     //Awake is always called before any Start functions
     void Awake()
@@ -44,29 +40,6 @@ public class GameManager : MonoBehaviour
             if (player == null)
             {
                 Debug.LogError("Could not find player object in scene, should be tagged as Player");
-            }
-        }
-
-        if (elevator == null)
-        {
-            GameObject go = GameObject.FindWithTag("Elevator");
-            if (go != null)
-            {
-                elevator = go.GetComponent<ElevatorController>();
-            }
-
-            if (elevator == null)
-            {
-                Debug.LogError("Could not find elevator object in scene, should be tagged as Elevator");
-            }
-        }
-
-        if (keyCard == null)
-        {
-            GameObject go = GameObject.FindWithTag("KeyCard");
-            if (go != null)
-            {
-                keyCard = go.GetComponent<KeyCardController>();
             }
         }
 
@@ -120,41 +93,5 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-
-    public void CollectKeyCard()
-    {
-        keyCardCollected = true;
-
-        if (elevator != null)
-        {
-            elevator.ActivateElevator();
-        }
-    }
-
-    public bool IsKeyCardCollected()
-    {
-        return keyCardCollected;
-    }
-
-    public bool IsElevatorAvailable()
-    {
-        if (elevator != null)
-        {
-            return elevator.IsElevatorAvailable();
-        }
-
-        return false;
-    }
-
-    public void HandleLevelComplete()
-    {
-        // show win screen here or load a different level
-
-        Debug.Log("Level Complete!");
-    }
-
-
-
-
 
 }
