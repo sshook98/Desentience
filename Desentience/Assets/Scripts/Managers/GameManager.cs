@@ -131,6 +131,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool IsKeyCardCollected()
+    {
+        return keyCardCollected;
+    }
+
     public bool IsElevatorAvailable()
     {
         if (elevator != null)
