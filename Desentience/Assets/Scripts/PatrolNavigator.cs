@@ -20,13 +20,10 @@ public class PatrolNavigator : MonoBehaviour
     private int currentTargetIndex;
     NavMeshAgent agent;
 
-    public int health;
-
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        health = 100;
         if (agent == null)
         {
             Debug.LogError("Patrol navigator does not have NavMeshAgent: " + gameObject.name);
@@ -41,14 +38,17 @@ public class PatrolNavigator : MonoBehaviour
             Debug.LogError("Patrol Navigator setup incorrectly");
         }
 
-        target = GameManager.Instance.player.transform;
-        if (target == null)
+        try
+        {
+            target = GameManager.Instance.player.transform;
+        } catch
         {
             GameObject go = GameObject.FindGameObjectWithTag("Player");
             if (go != null)
             {
                 target = go.transform;
-            } else
+            }
+            else
             {
                 Debug.LogError("Could not find a target with tag player");
             }
@@ -125,18 +125,5 @@ public class PatrolNavigator : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log(collision.gameObject.tag);
-        if (collision.gameObject.tag == "Bullet") {
-            if (health > 0)
-            {
-                health -= 20;
-            }
-            if (health <= 0)
-            {
-                Debug.Log("DEATH");
-            }
-        }
-    }
+
 }

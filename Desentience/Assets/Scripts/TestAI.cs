@@ -39,7 +39,22 @@ public class TestAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();   
         agent.isStopped = true;
-        target = GameObject.FindWithTag("Player");
+        try
+        {
+            target = GameManager.Instance.player;
+        }
+        catch
+        {
+            GameObject go = GameObject.FindGameObjectWithTag("Player");
+            if (go != null)
+            {
+                target = go;
+            }
+            else
+            {
+                Debug.LogError("Could not find a target with tag player");
+            }
+        }
         timer = wanderTimer;
     }
 
