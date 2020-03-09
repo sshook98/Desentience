@@ -8,14 +8,32 @@ public class GameManager : MonoBehaviour
 {
 
     private static GameManager instance;
+    //Neat lil C# getter for the GameManager instance
+    public static GameManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
 
     //References we want stored in the GameManager
     //GameObjects assign themselves during Awake(), since the GameManager is pre-loaded and thus already awake
     //Game flow is:
+    //  TitleScreen is loaded, GameManager and UIManager Awake()
+    //  Player presses "Wake Up"
+    //    -Can also make this automatic when using the editor, for ease of testing
+    //  Scene specified by 'gameScene' string is loaded
+    //  All monobehaviors Awake()
+    //    -This is where they assign themselves to the manager
+    //  Monobehaviors call Start() when first used. It is safe to use the GameManager at this point, as everything has been assigned (barring bugs)
     public GameObject player;
 
     //TODO
     //Add a public enum corresponding to each testing scene and the actual FirstLevel scene
+    //This would let us change which scene will load from a drop-down in the editor
+
+    //Right now, change gameScene to the name of the scene you want to load
     [SerializeField]
     private string gameScene = "ZachTestingScene";
     [SerializeField]
@@ -42,6 +60,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        //TODO
+        //*
+        //Move these to Awake() of their respective scripts
         if (player == null)
         {
             player = GameObject.FindWithTag("Player");
@@ -74,6 +95,9 @@ public class GameManager : MonoBehaviour
                 keyCard = go.GetComponent<KeyCardController>();
             }
         }
+        //Move these to Awake() of their respective scripts
+        //*
+        //TODO
 
     }
 
