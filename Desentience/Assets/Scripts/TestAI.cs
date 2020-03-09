@@ -52,6 +52,7 @@ public class TestAI : MonoBehaviour
             inCombat = ((target.transform.position - playerModel.position).magnitude < detectionRadius) ? true : false;
         }
 
+        //how do I fix the null target error?
         if (inCombat) 
         {
             agent.isStopped = false;

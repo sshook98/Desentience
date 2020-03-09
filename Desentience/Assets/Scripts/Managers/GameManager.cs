@@ -39,10 +39,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private bool isPaused = false;
 
-    private ElevatorController elevator;
-    private KeyCardController keyCard;
-
-    private bool keyCardCollected = false;
+    public bool keyCardCollected = false;
+    private ElevatorController elevator;    
 
     //Awake is always called before any Start functions
     void Awake()
@@ -58,7 +56,9 @@ public class GameManager : MonoBehaviour
         {
             //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
             Destroy(gameObject);
-        }
+        }        
+
+    }
 
         //TODO
         //*
@@ -76,23 +76,13 @@ public class GameManager : MonoBehaviour
         if (elevator == null)
         {
             GameObject go = GameObject.FindWithTag("Elevator");
-            if (go != null)
+
+            if (go != null && go.GetComponent<ElevatorController>() != null)
             {
                 elevator = go.GetComponent<ElevatorController>();
-            }
-
-            if (elevator == null)
+            } else
             {
-                Debug.LogError("Could not find elevator object in scene, should be tagged as Elevator");
-            }
-        }
-
-        if (keyCard == null)
-        {
-            GameObject go = GameObject.FindWithTag("KeyCard");
-            if (go != null)
-            {
-                keyCard = go.GetComponent<KeyCardController>();
+                Debug.LogError("Could not find elevator object, should be tagged as Elevator");
             }
         }
         //Move these to Awake() of their respective scripts
@@ -160,21 +150,17 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    public void CollectKeyCard()
+    public void CollectKeyCard() 
     {
         keyCardCollected = true;
-
-        if (elevator != null)
-        {
-            elevator.ActivateElevator();
-        }
+        elevator.actiateElevator();
     }
 
     public bool IsElevatorAvailable()
     {
         if (elevator != null)
         {
-            return elevator.IsElevatorAvailable();
+            return elevator.isElevatorActivated();
         }
 
         return false;

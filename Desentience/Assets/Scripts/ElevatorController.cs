@@ -4,21 +4,15 @@ using UnityEngine;
 
 public class ElevatorController : MonoBehaviour
 {
-    private bool elevatorIsAvailable = false;
+    private bool elevatorActivated = false;
 
-    // Update is called once per frame
-    void Update()
+    public bool isElevatorActivated()
     {
-        
+        return elevatorActivated;
     }
 
-    public void ActivateElevator()
+    public void actiateElevator()
     {
-        elevatorIsAvailable = true;
-    }
-
-    public bool IsElevatorAvailable()
-    {
-        return elevatorIsAvailable;
+        elevatorActivated = true;
     }
 }
