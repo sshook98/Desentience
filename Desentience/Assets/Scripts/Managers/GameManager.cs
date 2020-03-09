@@ -137,7 +137,14 @@ public class GameManager : MonoBehaviour
 
     public void QuitGame()
     {
+        Debug.Log("Quittin' time");
         Application.Quit();
+    }
+
+    public void ReturnToMainMenu()
+    {
+        LoadScene("TitleScreen");
+        UIManager.Instance.TriggerPanelTransition(UIManager.Instance.mainMenu);
     }
 
     private void LoadScene(string sceneName)
@@ -168,7 +175,7 @@ public class GameManager : MonoBehaviour
     public void HandleLevelComplete()
     {
         // show win screen here or load a different level
-
+        UIManager.Instance.TriggerPanelTransition(UIManager.Instance.levelCompleteMenu);
         Debug.Log("Level Complete!");
     }
 

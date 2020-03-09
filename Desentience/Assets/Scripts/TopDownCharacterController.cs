@@ -262,14 +262,15 @@ public class TopDownCharacterController : MonoBehaviour
         if (other.tag == "KeyCard")
         {
             other.gameObject.SetActive(false);
-            GameManager.instance.CollectKeyCard();
-        } 
+            GameManager.Instance.CollectKeyCard();
+        }
         else if (other.tag == "Elevator")
         {
-            if (GameManager.instance.IsElevatorAvailable())
+            if (GameManager.Instance.IsElevatorAvailable())
             {
-                GameManager.instance.HandleLevelComplete();
+                GameManager.Instance.HandleLevelComplete();
             }
+        }
         else if (other.gameObject.tag == "HealthPickup")
         {
             if (currentHealth < maxHealth)
