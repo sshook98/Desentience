@@ -272,17 +272,17 @@ public class TopDownCharacterController : MonoBehaviour
         //         GameManager.instance.HandleLevelComplete();
         //     }
         // }
-        // else if (other.gameObject.tag == "HealthPickup")
-        // {
-        //     if (currentHealth < maxHealth)
-        //     {
-        //         currentHealth += maxHealth / 2;
-        //         if (currentHealth > maxHealth)
-        //         {
-        //             currentHealth = maxHealth;
-        //         }
-        //         other.gameObject.SetActive(false);
-        //     }
-        // }
+        else if (other.gameObject.tag == "HealthPickup")
+        {
+            if (currentHealth < maxHealth)
+            {
+                currentHealth += maxHealth / 2;
+                if (currentHealth > maxHealth)
+                {
+                    currentHealth = maxHealth;
+                }
+                other.gameObject.SetActive(false);
+            }
+        }
     }
 }
