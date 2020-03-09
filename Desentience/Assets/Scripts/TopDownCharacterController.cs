@@ -260,7 +260,19 @@ public class TopDownCharacterController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "HealthPickup")
+        if (other.tag == "KeyCard")
+        {
+            other.gameObject.SetActive(false);
+            GameManager.instance.CollectKeyCard();
+        }
+        else if (other.tag == "Elevator")
+        {
+            if (GameManager.instance.IsElevatorAvailable())
+            {
+                GameManager.instance.HandleLevelComplete();
+            }
+        }
+        else if (other.gameObject.tag == "HealthPickup")
         {
             if (currentHealth < maxHealth)
             {
@@ -269,7 +281,7 @@ public class TopDownCharacterController : MonoBehaviour
                 {
                     currentHealth = maxHealth;
                 }
-                Destroy(collider.gameObject);
+                other.gameObject.SetActive(false);
             }
         }
     }
