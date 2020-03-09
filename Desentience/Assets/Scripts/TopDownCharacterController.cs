@@ -121,6 +121,7 @@ public class TopDownCharacterController : MonoBehaviour
                 Vector3 lookPosition = hit.point - transform.position;
                 lookPosition.y = 0;
                 aimPosition = hit.point;
+                aimPosition.y = transform.position.y;
                 Quaternion rotation = Quaternion.LookRotation(lookPosition);
                 targetRotation *= rotation;
             }
