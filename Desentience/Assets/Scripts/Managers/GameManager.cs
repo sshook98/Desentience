@@ -130,4 +130,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Level Complete");
     }
+
+    public void HandlePlayerDeath()
+    {
+        Debug.Log("Player died");
+    }
 }
