@@ -17064,12 +17064,17 @@ PrefabInstance:
     - target: {fileID: 6929796367656416966, guid: e138e677070ffd0498c3c816ae399844,
         type: 3}
       propertyPath: maxHealth
-      value: 150
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 6929796367656416966, guid: e138e677070ffd0498c3c816ae399844,
         type: 3}
       propertyPath: currentHealth
-      value: 150
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 6645771819493972295, guid: e138e677070ffd0498c3c816ae399844,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e138e677070ffd0498c3c816ae399844, type: 3}
