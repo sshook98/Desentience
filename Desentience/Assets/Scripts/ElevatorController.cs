@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ElevatorController : MonoBehaviour
 {
+    private void Awake()
+    {
+        GameManager.Instance.elevator = this;
+    }
+
     private bool elevatorActivated = false;
 
     public bool isElevatorActivated()
@@ -11,7 +16,7 @@ public class ElevatorController : MonoBehaviour
         return elevatorActivated;
     }
 
-    public void actiateElevator()
+    public void activateElevator()
     {
         elevatorActivated = true;
     }

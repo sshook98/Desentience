@@ -11,6 +11,7 @@ TagManager:
   - KeyCard
   - RemovableWall
   - HealthPickup
+  - Elevator
   layers:
   - Default
   - TransparentFX

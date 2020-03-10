@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     private bool isPaused = false;
 
     public bool keyCardCollected = false;
-    private ElevatorController elevator;    
+    public ElevatorController elevator;    
 
     //Awake is always called before any Start functions
     void Awake()
@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
     {
         LoadScene(gameScene);
         UIManager.Instance.TriggerPanelTransition(null);
+
     }
 
     public void QuitGame()
@@ -153,7 +154,7 @@ public class GameManager : MonoBehaviour
     public void CollectKeyCard() 
     {
         keyCardCollected = true;
-        elevator.actiateElevator();
+        elevator.activateElevator();
     }
 
     public bool IsElevatorAvailable()
@@ -170,7 +171,6 @@ public class GameManager : MonoBehaviour
     {
         // show win screen here or load a different level
         UIManager.Instance.TriggerPanelTransition(UIManager.Instance.levelCompleteMenu);
-        Debug.Log("Level Complete!");
     }
 
 }

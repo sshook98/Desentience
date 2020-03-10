@@ -46,6 +46,7 @@ public class TopDownCharacterController : MonoBehaviour
     public GameObject shrapnelPrefab;
     public Material[] shrapnelMaterials;
 
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -93,6 +94,7 @@ public class TopDownCharacterController : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        GameManager.Instance.player = gameObject;
     }
 
     private void FixedUpdate()
