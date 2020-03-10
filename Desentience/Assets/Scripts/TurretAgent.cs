@@ -84,11 +84,22 @@ public class TurretAgent : MonoBehaviour
             dying = true;
         }
 
+        if (target == null)
+        {
+            target = GameManager.Instance.player;
+            if (target == null)
+            {
+                return;
+            }
+        }
+
         if (!dying)
         {
+            inCombat = ((target.transform.position - transform.position).magnitude < detectionRadius) ? true : false;
             if (!inCombat)
             {
-                inCombat = ((target.transform.position - transform.position).magnitude < detectionRadius) ? true : false;
+                // Move this to just before the if statement? So it stops firing if it's too far away
+                // inCombat = ((target.transform.position - transform.position).magnitude < detectionRadius) ? true : false;
             }
 
             if (inCombat)

@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class TestAI : MonoBehaviour
 {
+    [SerializeField]
     private GameObject target;
     public bool inCombat = false;
     private Vector3 aimPosition;
@@ -61,13 +62,19 @@ public class TestAI : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
+        if (target == null)
+        {
+            target = GameManager.Instance.player;
+            if (target == null)
+            {
+                return;
+            }
+        }
         if (!inCombat) 
         {
             inCombat = ((target.transform.position - playerModel.position).magnitude < detectionRadius) ? true : false;
         }
-
-        //how do I fix the null target error?
+        
         if (inCombat) 
         {
             agent.isStopped = false;
