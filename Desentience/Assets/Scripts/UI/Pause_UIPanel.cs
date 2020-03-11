@@ -8,14 +8,17 @@ using UnityEngine.UI;
 public class Pause_UIPanel : Base_UIPanel
 {
     public Button resumeButton;
+    public Slider volumeSlider;
     public Button menuButton;
+
     public override void OpenBehavior()
     {
         base.OpenBehavior();
 
         resumeButton.onClick.RemoveAllListeners();
         resumeButton.onClick.AddListener(() => { ResumeButtonPressed(); });
-
+        volumeSlider.onValueChanged.RemoveAllListeners();
+        volumeSlider.onValueChanged.AddListener(delegate { VolumeSliderChanged(); });
         menuButton.onClick.RemoveAllListeners();
         menuButton.onClick.AddListener(() => { MenuButtonPressed(); });
     }
@@ -28,6 +31,11 @@ public class Pause_UIPanel : Base_UIPanel
     void ResumeButtonPressed()
     {
         GameManager.Instance.TogglePause();
+    }
+
+    void VolumeSliderChanged()
+    {
+        AudioManager.Instance.masterVolume = volumeSlider.value;
     }
 
     void MenuButtonPressed()
