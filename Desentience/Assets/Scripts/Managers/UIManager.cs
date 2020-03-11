@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
         {
             instance = this;
         }
-        else {
+        else if (instance != this) {
             Destroy(gameObject);
         }
     }

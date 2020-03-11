@@ -36,14 +36,19 @@ public class GameManager : MonoBehaviour
     //Right now, change gameScene to the name of the scene you want to load
     [SerializeField]
     private string gameScene = "ZachTestingScene";
+
     [SerializeField]
     private bool isPaused = false;
+    public bool IsPaused()
+    {
+        return isPaused;
+    }
 
     public bool keyCardCollected = false;
     public ElevatorController elevator;    
 
     //Awake is always called before any Start functions
-    void Awake()
+    private void Awake()
     {
         //Check if instance already exists
         if (instance == null)
@@ -56,44 +61,7 @@ public class GameManager : MonoBehaviour
         {
             //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
             Destroy(gameObject);
-        }        
-
-    }
-
-        //TODO
-        //*
-        //Move these to Awake() of their respective scripts
-        /**
-        if (player == null)
-        {
-            player = GameObject.FindWithTag("Player");
-
-            if (player == null)
-            {
-                Debug.LogError("Could not find player object in scene, should be tagged as Player");
-            }
         }
-
-        if (elevator == null)
-        {
-            GameObject go = GameObject.FindWithTag("Elevator");
-
-            if (go != null && go.GetComponent<ElevatorController>() != null)
-            {
-                elevator = go.GetComponent<ElevatorController>();
-            } else
-            {
-                Debug.LogError("Could not find elevator object, should be tagged as Elevator");
-            }
-        }
-        //Move these to Awake() of their respective scripts
-        **/
-        //*
-        //TODO
-
-    public bool IsPaused()
-    {
-        return isPaused;
     }
 
     private void Update()
@@ -102,6 +70,11 @@ public class GameManager : MonoBehaviour
         {
             TogglePause();
         }
+    }
+
+    private void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 
     public void TogglePause()
@@ -144,11 +117,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1.0f;
         isPaused = false;
         UIManager.Instance.TriggerPanelTransition(UIManager.Instance.mainMenu);
-    }
-
-    private void LoadScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
     }
 
     public void CollectKeyCard() 
