@@ -45,10 +45,14 @@ public class TopDownCharacterController : MonoBehaviour
 
     public GameObject shrapnelPrefab;
     public Material[] shrapnelMaterials;
-
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     private void Start()
     {
+        GameManager.Instance.player = gameObject;
         rb = GetComponent<Rigidbody>();
         timeBetweenShots = 1f / fireRate;
 
@@ -91,11 +95,9 @@ public class TopDownCharacterController : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        anim = GetComponent<Animator>();
-        GameManager.Instance.player = gameObject;
-    }
+   
+
+
 
     private void FixedUpdate()
     {
@@ -223,6 +225,11 @@ public class TopDownCharacterController : MonoBehaviour
         shotTimer = timeBetweenShots;
 
         anim.Play("shoot");
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayPlayerFiringSound();
+        }
     }
 
     private void TakeDamage(int damage)

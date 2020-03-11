@@ -32,9 +32,8 @@ public class TurretAgent : MonoBehaviour
 
     private bool dying;
 
-    NavMeshAgent agent;
+    private NavMeshAgent agent;
 
-    // Start is called before the first frame update
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();   
@@ -76,7 +75,6 @@ public class TurretAgent : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (currentHealth <= 0 && !dying)

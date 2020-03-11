@@ -23,7 +23,7 @@ public class TurretController : MonoBehaviour
             }
         } else
         {
-            Debug.LogError("Turret set up wrong, no target");
+            Debug.LogError("Turret set up wrong, no target.  Name: " + name);
         }
     }
 }
