@@ -8,6 +8,9 @@ using System;
 [RequireComponent(typeof(DDOL))]
 public class AudioManager : MonoBehaviour
 {
+    public AudioMixerGroup masterAudioMixerGroup;
+    public AudioMixerGroup musicAudioMixerGroup;
+    public AudioMixerGroup sfxAudioMixerGroup;
 
     private static AudioManager instance;
     public static AudioManager Instance
@@ -51,10 +54,10 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        Play("Background_Music");
+        Play("Background_Music", musicAudioMixerGroup);
     }
 
-    public void Play(string name)
+    public void Play(string name, AudioMixerGroup audioMixerGroup)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
@@ -62,15 +65,24 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("No Sound with name " + name + " was found");
             return;
         }
-        s.source.volume = s.volume * masterVolume;
-        s.source.pitch = s.pitch * masterPitch;
+        s.source.volume = s.volume;
+        s.source.pitch = s.pitch;
+        s.source.outputAudioMixerGroup = audioMixerGroup;
         s.source.Play();
     }
 
-    public void PlayOneShot(AudioClip clip)
+    // Currently, this is only used for sfx. Can be changed if needed.
+    public void PlayClipAtPoint(AudioClip clip, Vector3 position, float volume = 1.0f, float pitch = 1.0f)
     {
-        GameObject soundObject = new GameObject("OneShotSound");
-        AudioSource audioSource = soundObject.AddComponent<AudioSource>();
-        audioSource.PlayOneShot(clip);
+        GameObject go = new GameObject("OneShotClipAtPoint");
+        go.transform.position = position;
+        AudioSource audioSource = go.AddComponent<AudioSource>();
+        audioSource.clip = clip;
+        //audioSource.volume = volume;
+        audioSource.pitch = pitch;
+        audioSource.outputAudioMixerGroup = sfxAudioMixerGroup;
+        audioSource.PlayOneShot(clip, volume);
+        Destroy(go, clip.length);
     }
+
 }

@@ -16950,6 +16950,11 @@ PrefabInstance:
       propertyPath: currentHealth
       value: 120
       objectReference: {fileID: 0}
+    - target: {fileID: 6929796367656416966, guid: e138e677070ffd0498c3c816ae399844,
+        type: 3}
+      propertyPath: gunshot
+      value: 
+      objectReference: {fileID: 8300000, guid: ffc84f5ae4b4fd74781df0ac4fa99928, type: 3}
     - target: {fileID: 8676746156529205101, guid: e138e677070ffd0498c3c816ae399844,
         type: 3}
       propertyPath: m_LocalPosition.x
