@@ -46,6 +46,7 @@ public class TopDownCharacterController : MonoBehaviour
     public GameObject shrapnelPrefab;
     public Material[] shrapnelMaterials;
 
+    public AudioClip gunshot;
 
     private void Start()
     {
@@ -222,6 +223,7 @@ public class TopDownCharacterController : MonoBehaviour
 
         shotTimer = timeBetweenShots;
 
+        AudioManager.Instance.PlayClipAtPoint(gunshot, projectileSpawnPoint.position, volume: 0.15f);
         anim.Play("shoot");
     }
 
