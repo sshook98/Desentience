@@ -16,6 +16,8 @@ public class TopDownCharacterController : MonoBehaviour
     public float leanIntensity;
     public float leanStep;
 
+    public Item selectedItem;
+
     public float timeBetweenShots;
     private float shotTimer = 0;
     private Rigidbody rb;
@@ -102,6 +104,15 @@ public class TopDownCharacterController : MonoBehaviour
     {
         if (!dying)
         {
+            //alternate firing code, works no matter what is equipped
+            /**
+            if (Input.GetMouseButton(0)) {
+                IActionable actionItem = selectedItem as IActionable;
+                if (actionItem != null) {
+                    actionItem.Action();
+                }
+            }
+            **/
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
             rb.velocity = new Vector3(h, 0, v) * speed;
