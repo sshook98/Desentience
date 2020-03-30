@@ -26,7 +26,9 @@ public class AudioManager : MonoBehaviour
     [Range(.1f, 3f)]
     public float masterPitch = 1f;
 
-    // It is not necessary to have all sounds here
+    // It is not necessary to have all sounds here.
+    // I'm still trying to determine exactly why the tutorial I got this from did things this way.
+    // What I can think of, is that any concurrent persistent sounds (music, dialog, etc.) should each be in here.
     public Sound[] sounds;
 
     private void Awake()
