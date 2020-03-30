@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
     public Main_UIPanel mainMenu;
     public GameOver_UIPanel gameOverMenu;
     public LevelComplete_UIPanel levelCompleteMenu;
+    
+    public HUD_UIPanel _HUDPanel;
 
     [SerializeField]
     private Base_UIPanel _currentPanel;
