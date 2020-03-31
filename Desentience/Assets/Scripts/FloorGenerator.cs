@@ -66,9 +66,11 @@ public class FloorGenerator : MonoBehaviour
             GenerateFloor();
         } else if (Input.GetKeyDown(KeyCode.Return))
         {
+#if UNITY_EDITOR
             string localPath = "Assets/" + floorParent.name + ".prefab";
             localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
             PrefabUtility.SaveAsPrefabAssetAndConnect(floorParent, localPath, InteractionMode.UserAction);
+#endif
         }
     }
 
