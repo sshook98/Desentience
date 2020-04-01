@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class ElevatorController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        GameManager.Instance.elevator = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    private bool elevatorActivated = false;
+
+    public bool isElevatorActivated()
     {
-        
+        return elevatorActivated;
+    }
+
+    public void activateElevator()
+    {
+        elevatorActivated = true;
     }
 }

@@ -7,17 +7,40 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
-    public static GameManager instance;
+    private static GameManager instance;
+    //Neat lil C# getter for the GameManager instance
+    public static GameManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
 
     //References we want stored in the GameManager
+    //GameObjects assign themselves during Awake(), since the GameManager is pre-loaded and thus already awake
+    //Game flow is:
+    //  TitleScreen is loaded, GameManager and UIManager Awake()
+    //  Player presses "Wake Up"
+    //    -Can also make this automatic when using the editor, for ease of testing
+    //  Scene specified by 'gameScene' string is loaded
+    //  All monobehaviors Awake()
+    //    -This is where they assign themselves to the manager
+    //  Monobehaviors call Start() when first used. It is safe to use the GameManager at this point, as everything has been assigned (barring bugs)
     public GameObject player;
 
+    //TODO
+    //Add a public enum corresponding to each testing scene and the actual FirstLevel scene
+    //This would let us change which scene will load from a drop-down in the editor
+
+    //Right now, change gameScene to the name of the scene you want to load
     [SerializeField]
     private string gameScene = "ZachTestingScene";
     [SerializeField]
     private bool isPaused = false;
 
     public bool keyCardCollected = false;
+    public ElevatorController elevator;    
 
     //Awake is always called before any Start functions
     void Awake()
@@ -33,8 +56,14 @@ public class GameManager : MonoBehaviour
         {
             //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
             Destroy(gameObject);
-        }
+        }        
 
+    }
+
+        //TODO
+        //*
+        //Move these to Awake() of their respective scripts
+        /**
         if (player == null)
         {
             player = GameObject.FindWithTag("Player");
@@ -45,9 +74,22 @@ public class GameManager : MonoBehaviour
             }
         }
 
-    }
+        if (elevator == null)
+        {
+            GameObject go = GameObject.FindWithTag("Elevator");
 
-
+            if (go != null && go.GetComponent<ElevatorController>() != null)
+            {
+                elevator = go.GetComponent<ElevatorController>();
+            } else
+            {
+                Debug.LogError("Could not find elevator object, should be tagged as Elevator");
+            }
+        }
+        //Move these to Awake() of their respective scripts
+        **/
+        //*
+        //TODO
 
     public bool IsPaused()
     {
@@ -56,11 +98,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("escape"))
+        if (Input.GetKeyDown("escape") && SceneManager.GetActiveScene().name != "TitleScreen")
         {
             TogglePause();
         }
-
     }
 
     public void TogglePause()
@@ -80,24 +121,56 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        LoadScene("ZachTestingScene");
+        LoadScene(gameScene);
         UIManager.Instance.TriggerPanelTransition(null);
+
     }
 
-    public void LoadScene(string sceneName)
+    public void QuitGame()
+    {
+        Debug.Log("Quittin' time");
+        Application.Quit();
+    }
+
+    public void PlayerDeath()
+    {
+        Debug.Log("Player Died");
+        UIManager.Instance.TriggerPanelTransition(UIManager.Instance.gameOverMenu);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        LoadScene("TitleScreen");
+        Time.timeScale = 1.0f;
+        isPaused = false;
+        UIManager.Instance.TriggerPanelTransition(UIManager.Instance.mainMenu);
+    }
+
+    private void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
 
-    public static GameManager Instance
-    {
-        get {
-            return instance;
-        }
-    }
-
     public void CollectKeyCard() 
     {
-         keyCardCollected = true;
+        keyCardCollected = true;
+        elevator.activateElevator();
     }
+
+    public bool IsElevatorAvailable()
+    {
+        if (elevator != null)
+        {
+            return elevator.isElevatorActivated();
+        }
+
+        return false;
+    }
+
+    public void HandleLevelComplete()
+    {
+        // show win screen here or load a different level
+        UIManager.Instance.TriggerPanelTransition(UIManager.Instance.levelCompleteMenu);
+    }
+
 }

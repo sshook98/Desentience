@@ -32,6 +32,6 @@ public class Pause_UIPanel : Base_UIPanel
 
     void MenuButtonPressed()
     {
-        
+        GameManager.Instance.ReturnToMainMenu();
     }
 }

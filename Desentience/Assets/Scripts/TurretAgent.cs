@@ -32,14 +32,28 @@ public class TurretAgent : MonoBehaviour
 
     private bool dying;
 
-    NavMeshAgent agent;
+    private NavMeshAgent agent;
 
-    // Start is called before the first frame update
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();   
         agent.isStopped = true;
-        target = GameObject.FindWithTag("Player");
+        try
+        {
+            target = GameManager.Instance.player;
+        }
+        catch
+        {
+            GameObject go = GameObject.FindGameObjectWithTag("Player");
+            if (go != null)
+            {
+                target = go;
+            }
+            else
+            {
+                Debug.LogError("Could not find a target with tag player");
+            }
+        }
         turretModel = gameObject.transform;
 
         if (smoke_emitter == null)
@@ -61,7 +75,6 @@ public class TurretAgent : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (currentHealth <= 0 && !dying)
