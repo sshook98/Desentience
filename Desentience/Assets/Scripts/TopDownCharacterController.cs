@@ -218,6 +218,7 @@ public class TopDownCharacterController : MonoBehaviour
         projectile.transform.LookAt(aimPosition);
 
         projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;
+        projectile.GetComponent<BooletScript>().shooter = gameObject;
 
         Rigidbody projRb = projectile.GetComponent<Rigidbody>();
         projRb.velocity = velocity;
@@ -251,7 +252,7 @@ public class TopDownCharacterController : MonoBehaviour
         {
             BooletScript hitBooletScript = collision.collider.GetComponent<BooletScript>();
 
-            if (!hitBooletScript.hasCollided)
+            if (!hitBooletScript.hasCollided && hitBooletScript.shooter != gameObject)
             {
                 hitBooletScript.hasCollided = true;
                 if (currentHealth > 0)

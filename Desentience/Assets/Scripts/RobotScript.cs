@@ -161,7 +161,7 @@ public class RobotScript : MonoBehaviour
         {
             BooletScript hitBooletScript = collision.collider.GetComponent<BooletScript>();
 
-            if (!hitBooletScript.hasCollided)
+            if (!hitBooletScript.hasCollided && hitBooletScript.shooter != gameObject.transform.parent.gameObject)
             {
                 hitBooletScript.hasCollided = true;
                 if (currentHealth > 0)
