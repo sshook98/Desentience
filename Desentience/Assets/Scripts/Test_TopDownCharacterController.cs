@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TopDownCharacterController : MonoBehaviour
+public class Test_TopDownCharacterController : MonoBehaviour
 {
     public float speed;
     public Transform playerModel;
@@ -15,8 +15,6 @@ public class TopDownCharacterController : MonoBehaviour
     public int laserDamage = 1;
     public float leanIntensity;
     public float leanStep;
-
-    public Item selectedItem;
 
     public float timeBetweenShots;
     private float shotTimer = 0;
@@ -50,10 +48,48 @@ public class TopDownCharacterController : MonoBehaviour
 
     public AudioClip gunshot;
 
+    public Item selectedItem;
+    public Item equippedItem;
+    public GameObject itemInstance;
+
+    private void Equip(Item item)
+    {
+        if (item != equippedItem)
+        {
+            if (equippedItem != null)
+            {
+                Unequip();
+            }
+            equippedItem = item;
+            itemInstance = Instantiate(selectedItem.itemPrefab);
+            itemInstance.transform.parent = transform;
+            ProjectileWeapon pw = itemInstance.GetComponent<ProjectileWeapon>();
+            if (pw != null)
+            {
+                pw.projectileSpawnPoint = projectileSpawnPoint;
+            }
+        }
+    }
+
+    //TODO
+    // Deactivate unequipped items that are still in inventory? To avoid creating / destroying unneccessarily
+    private void Unequip()
+    {
+        Destroy(itemInstance);
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        timeBetweenShots = 1f / fireRate;
+
+        if (selectedItem != null)
+        {
+            Equip(selectedItem);
+        }
+        else
+        {
+            Debug.Log("No default weapon detected");
+        }
 
         if (smoke_emitter == null)
         {
@@ -104,6 +140,12 @@ public class TopDownCharacterController : MonoBehaviour
     {
         if (!dying)
         {
+            //Need to change input to virtual fire1 button
+            if (Input.GetMouseButton(0)) {
+                Debug.Log("Trying to fire");
+                UseAction();
+            }
+
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
             rb.velocity = new Vector3(h, 0, v) * speed;
@@ -114,6 +156,8 @@ public class TopDownCharacterController : MonoBehaviour
             Quaternion currentRotation = playerModel.rotation;
             float newh = Mathf.Lerp(oldh, h, leanStep);
             float newv = Mathf.Lerp(oldv, v, leanStep);
+            oldh = newh;
+            oldv = newv;
             Quaternion targetRotation = Quaternion.Euler(newv * leanIntensity, 0f, -newh * leanIntensity);
 
             if (Physics.Raycast(ray, out hit))
@@ -128,15 +172,7 @@ public class TopDownCharacterController : MonoBehaviour
 
             playerModel.rotation = Quaternion.RotateTowards(currentRotation, targetRotation, Time.deltaTime * 1000);
 
-            shotTimer -= Time.deltaTime;
-            if (Input.GetMouseButton(0) && shotTimer <= 0) // Left Mouse button down,  later switch to a virtual buton "Fire1"
-            {
-                Fire();
-            }
-
-            oldh = newh;
-            oldv = newv;
-
+            
 
             // *** Robot health code ***
             float healthRatio = currentHealth / maxHealth;
@@ -191,7 +227,8 @@ public class TopDownCharacterController : MonoBehaviour
                 head.materials = matArray;
             }
             // *** ***
-        } else
+        }
+        else
         {
             anim.SetBool("dying", true);
             rb.velocity = Vector3.zero;
@@ -203,30 +240,26 @@ public class TopDownCharacterController : MonoBehaviour
                 }
                 if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                 {
-                    Destroy(gameObject);
                     GameManager.Instance.PlayerDeath();
+                    Destroy(gameObject);
                 }
             }
         }
 
     }
 
-    private void Fire()
+    private void UseAction()
     {
-        GameObject projectile = Instantiate(projectilePrefab);
-        projectile.transform.position = projectileSpawnPoint.position;
-        Vector3 velocity = (aimPosition - transform.position).normalized * bulletSpeed;
-        projectile.transform.LookAt(aimPosition);
-
-        projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;
-
-        Rigidbody projRb = projectile.GetComponent<Rigidbody>();
-        projRb.velocity = velocity;
-
-        shotTimer = timeBetweenShots;
-
-        AudioManager.Instance.PlayClipAtPoint(gunshot, projectileSpawnPoint.position, volume: 0.15f);
-        anim.Play("shoot");
+        IActionable actionable = itemInstance.GetComponent<IActionable>() as IActionable;
+        if (actionable != null)
+        {
+            Debug.Log("actionable != null");
+            if (actionable.Action())
+            {
+                anim.Play("shoot");
+                Debug.Log("shooting!");
+            }
+        }
     }
 
     private void TakeDamage(int damage)
@@ -269,7 +302,7 @@ public class TopDownCharacterController : MonoBehaviour
                     }
                 }
             }
-            
+
         }
     }
 
@@ -298,7 +331,8 @@ public class TopDownCharacterController : MonoBehaviour
                 }
                 other.gameObject.SetActive(false);
             }
-        } else if (other.tag == "Laserbeam")
+        }
+        else if (other.tag == "Laserbeam")
         {
             TakeDamage(laserDamage);
         }

@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     //Add a public enum corresponding to each testing scene and the actual FirstLevel scene
     //This would let us change which scene will load from a drop-down in the editor
 
-    public Inventory inventory = new Inventory();
+    public Inventory inventory;
 
     //Right now, change gameScene to the name of the scene you want to load
     [SerializeField]

@@ -4,7 +4,9 @@ using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour
 {
-    public List<Item> items = new List<Item>();
+    public List<Item> items;
+    // = new List<Item>();
+
     public int capacity;
 
     public bool AddItem(Item item)

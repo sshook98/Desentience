@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : Item, IActionable
+public abstract class Weapon : MonoBehaviour, IActionable
 {
-    // Start is called before the first frame update
-    void Start()
+ 
+    public virtual void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         
     }
 
-    public void Action()
+    public virtual bool Action()
     {
-
+        return false;
     }
 }
