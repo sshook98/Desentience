@@ -35,11 +35,11 @@ public class ProjectileWeapon : Weapon
         Vector3 velocity = forward_vector.normalized * bulletSpeed;
         Rigidbody projRb = projectile.GetComponent<Rigidbody>();
         projRb.velocity = velocity;
-        
-        //Don't want this at all
-        projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;
 
-        AudioManager.Instance.PlayClipAtPoint(gunshot, projectileSpawnPoint.position, volume: 0.15f);
+        if (gunshot != null)
+        {
+            AudioManager.Instance.PlayClipAtPoint(gunshot, projectileSpawnPoint.position, volume: 0.15f);
+        }
         // end of Action()
         return true;
     }

@@ -10,12 +10,17 @@ public class RocketScript : MonoBehaviour
 
     private void Start()
     {
-        Explode();
+        
     }
 
     private void Update()
     {
         // Rocket trail effect. Probably using Unity Particle Pack
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Explode();
     }
 
     void Explode()

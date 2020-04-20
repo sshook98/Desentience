@@ -12384,17 +12384,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7.5
   playerModel: {fileID: 1982286149}
-  projectilePrefab: {fileID: 8528442089839199584, guid: 25b5270912ad7487990c9c17b90a73a5,
-    type: 3}
   projectileSpawnPoint: {fileID: 1982286148}
   fireRate: 5
   bulletSpeed: 25
   bulletLifetime: 1
-  bulletDamage: 5
   laserDamage: 1
   leanIntensity: 10
   leanStep: 0.15
-  timeBetweenShots: 0
   maxHealth: 100
   currentHealth: 100
   smoke_emitter: {fileID: 1982286147}
@@ -12410,7 +12406,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 17cbf1063c35d684fb4d51da8afd3090, type: 2}
   - {fileID: 2100000, guid: 46e037827568a99448b8170190f8363c, type: 2}
   gunshot: {fileID: 8300000, guid: ffc84f5ae4b4fd74781df0ac4fa99928, type: 3}
-  selectedItem: {fileID: 11400000, guid: 8203cfb90b085644585e03186199730c, type: 2}
+  selectedItem: {fileID: 11400000, guid: 40516ee12d1d1fb4cabb1e663c4c7024, type: 2}
   equippedItem: {fileID: 0}
   itemInstance: {fileID: 0}
 --- !u!1001 &1669318251

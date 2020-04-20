@@ -6,18 +6,14 @@ public class Test_TopDownCharacterController : MonoBehaviour
 {
     public float speed;
     public Transform playerModel;
-    public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public float fireRate;
     public float bulletSpeed;
     public float bulletLifetime;
-    public int bulletDamage = 5;
     public int laserDamage = 1;
     public float leanIntensity;
     public float leanStep;
-
-    public float timeBetweenShots;
-    private float shotTimer = 0;
+    
     private Rigidbody rb;
     private Vector3 aimPosition = Vector3.zero;
     private Animator anim;
@@ -253,11 +249,9 @@ public class Test_TopDownCharacterController : MonoBehaviour
         IActionable actionable = itemInstance.GetComponent<IActionable>() as IActionable;
         if (actionable != null)
         {
-            Debug.Log("actionable != null");
             if (actionable.Action())
             {
                 anim.Play("shoot");
-                Debug.Log("shooting!");
             }
         }
     }
@@ -286,7 +280,8 @@ public class Test_TopDownCharacterController : MonoBehaviour
                 hitBooletScript.hasCollided = true;
                 if (currentHealth > 0)
                 {
-                    TakeDamage(bulletDamage);
+                    //TODO: Move damage to bullet / projectile script
+                    // TakeDamage(bulletDamage);
 
                     //spawn shrapnel
                     for (int i = 0; i < Random.Range(10, 20); i++)
