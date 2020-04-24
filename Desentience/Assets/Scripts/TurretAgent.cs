@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(Healthy))]
 public class TurretAgent : MonoBehaviour
 {
     private GameObject target;
@@ -19,9 +20,8 @@ public class TurretAgent : MonoBehaviour
     public float timeBetweenShots;
     public float bulletLifetime;
     private float shotTimer = 0;
-
-    public float maxHealth = 100;
-    public float currentHealth = 100;
+    
+    public Healthy healthComponent;
 
     public GameObject shrapnelPrefab;
     public Material[] shrapnelMaterials;
@@ -37,7 +37,8 @@ public class TurretAgent : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();   
+        agent = GetComponent<NavMeshAgent>();
+        healthComponent = GetComponent<Healthy>();
         agent.isStopped = true;
         try
         {
@@ -79,7 +80,7 @@ public class TurretAgent : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (currentHealth <= 0 && !dying)
+        if (healthComponent.currentHealth <= 0 && !dying)
         {
             dying = true;
         }
@@ -114,7 +115,7 @@ public class TurretAgent : MonoBehaviour
                 Fire();
             }
 
-            float healthRatio = currentHealth / maxHealth;
+            float healthRatio = healthComponent.currentHealth / healthComponent.maxHealth;
             if (healthRatio < 0.5f && smoke_emitter.isStopped) smoke_emitter.Play();
             if (healthRatio >= 0.5f && smoke_emitter.isPlaying) smoke_emitter.Stop();
 
@@ -128,6 +129,7 @@ public class TurretAgent : MonoBehaviour
         }
         
     }
+
     private void Fire()
     {
         aimPosition = target.transform.position;
@@ -146,31 +148,17 @@ public class TurretAgent : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Bullet")
+        for (int i = 0; i < Random.Range(10, 20); i++)
         {
-            BooletScript hitBooletScript = collision.collider.GetComponent<BooletScript>();
-
-            if (!hitBooletScript.hasCollided)
-            {
-                hitBooletScript.hasCollided = true;
-                if (currentHealth > 0)
-                {
-                    currentHealth -= 20;
-
-                    for (int i = 0; i < Random.Range(10, 20); i++)
-                    {
-                        GameObject shrapnel = Instantiate(shrapnelPrefab);
-                        shrapnel.transform.position = turretModel.position + Random.onUnitSphere;
-                        shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
-                        Vector3 velocity = Random.insideUnitSphere * 5;
-                        Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
-                        projRb.velocity = velocity;
-                        shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
-                        shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
-                    }
-                }
-            }
-
+            GameObject shrapnel = Instantiate(shrapnelPrefab);
+            shrapnel.transform.position = turretModel.position + Random.onUnitSphere;
+            shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
+            Vector3 velocity = Random.insideUnitSphere * 5;
+            Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
+            projRb.velocity = velocity;
+            shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
+            shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
         }
     }
+
 }

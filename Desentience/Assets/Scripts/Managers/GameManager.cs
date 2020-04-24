@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     }
 
     public bool keyCardCollected = false;
+    public GameObject keyCard;
     public ElevatorController elevator;    
 
     //Awake is always called before any Start functions
@@ -125,6 +126,7 @@ public class GameManager : MonoBehaviour
     {
         keyCardCollected = true;
         elevator.activateElevator();
+        keyCard.SetActive(false);
     }
 
     public bool IsElevatorAvailable()

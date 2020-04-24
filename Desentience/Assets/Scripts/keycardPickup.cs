@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class keycardPickup : MonoBehaviour
 {
-    // Update is called once per frame
+
+    private void Awake()
+    {
+        GameManager.Instance.keyCard = gameObject;
+    }
     void Update()
     {
+        /**
         if (GameManager.Instance.keyCardCollected == true) {
             this.gameObject.SetActive(false);
         }
+        **/
     }
 }

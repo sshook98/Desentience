@@ -43,11 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d302424581d669459299c69e3dc9fd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 8528442089839199584, guid: 25b5270912ad7487990c9c17b90a73a5,
+  projectilePrefab: {fileID: 6321413415816534705, guid: 3570d3c87e10fa1498adaffa1f2fad90,
     type: 3}
+  projectileSpawnPoint: {fileID: 0}
   bulletSpeed: 25
   bulletLifetime: 1
-  bulletDamage: 5
   gunshot: {fileID: 8300000, guid: ffc84f5ae4b4fd74781df0ac4fa99928, type: 3}
   timeOfLastShot: 0
   fireRate: 5

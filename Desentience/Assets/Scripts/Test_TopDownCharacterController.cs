@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Healthy))]
 public class Test_TopDownCharacterController : MonoBehaviour
 {
     public float speed;
@@ -21,10 +22,6 @@ public class Test_TopDownCharacterController : MonoBehaviour
     private float oldh;
     private float oldv;
 
-    // *** Robot health variables ***
-    public float maxHealth = 100;
-    public float currentHealth = 100;
-
     public ParticleSystem smoke_emitter;
     public ParticleSystem explosion_emitter;
     public Renderer head;
@@ -34,6 +31,8 @@ public class Test_TopDownCharacterController : MonoBehaviour
 
     private bool healthLow = false;
     private bool healthCritical = false;
+    public Healthy healthComponent;
+
     private float flashCount;
     private bool flashState;
     private bool dying = false;
@@ -77,7 +76,11 @@ public class Test_TopDownCharacterController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-
+        healthComponent = GetComponent<Healthy>();
+        if (healthComponent == null)
+        {
+            Debug.Log("No Health script attached");
+        }
         if (selectedItem != null)
         {
             Equip(selectedItem);
@@ -134,6 +137,13 @@ public class Test_TopDownCharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (healthComponent.currentHealth <= 0 && !dying)
+        {
+            Material[] matArray = head.materials;
+            matArray[0] = flashMaterialOn;
+            head.materials = matArray;
+            dying = true;
+        }
         if (!dying)
         {
             //Need to change input to virtual fire1 button
@@ -171,7 +181,7 @@ public class Test_TopDownCharacterController : MonoBehaviour
             
 
             // *** Robot health code ***
-            float healthRatio = currentHealth / maxHealth;
+            float healthRatio = healthComponent.currentHealth / healthComponent.maxHealth;
 
             if (!healthLow && healthRatio < 0.5f) healthLow = true;
             if (healthLow && healthRatio >= 0.5f) healthLow = false;
@@ -256,19 +266,6 @@ public class Test_TopDownCharacterController : MonoBehaviour
         }
     }
 
-    private void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-
-        if (currentHealth <= 0 && !dying)
-        {
-            Material[] matArray = head.materials;
-            matArray[0] = flashMaterialOn;
-            head.materials = matArray;
-            dying = true;
-        }
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bullet")
@@ -278,7 +275,7 @@ public class Test_TopDownCharacterController : MonoBehaviour
             if (!hitBooletScript.hasCollided)
             {
                 hitBooletScript.hasCollided = true;
-                if (currentHealth > 0)
+                if (healthComponent.currentHealth > 0)
                 {
                     //TODO: Move damage to bullet / projectile script
                     // TakeDamage(bulletDamage);
@@ -301,6 +298,7 @@ public class Test_TopDownCharacterController : MonoBehaviour
         }
     }
 
+    /**
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "KeyCard")
@@ -332,4 +330,5 @@ public class Test_TopDownCharacterController : MonoBehaviour
             TakeDamage(laserDamage);
         }
     }
+    **/
 }

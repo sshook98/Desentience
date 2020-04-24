@@ -8,19 +8,11 @@ public class ProjectileWeapon : Weapon
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public float bulletSpeed;
-
-    //Don't want this
-    public float bulletLifetime;
     
     public AudioClip gunshot;
     public float timeOfLastShot;
     public float fireRate;
-
-    public override void Update()
-    {
-        
-    }
-
+    
     public override bool Action()
     {
         if ((Time.time - timeOfLastShot) < (1 / fireRate)) {

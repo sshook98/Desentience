@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 3567844598526205252}
   - component: {fileID: 3567844598526205275}
   - component: {fileID: 3567844598526205274}
+  - component: {fileID: 8475685527971030020}
   m_Layer: 9
   m_Name: TurretAgent 1
   m_TagString: Untagged
@@ -288,6 +289,7 @@ MonoBehaviour:
   bulletLifetime: 1
   maxHealth: 100
   currentHealth: 1
+  healthComponent: {fileID: 0}
   shrapnelPrefab: {fileID: 122015754777258525, guid: 071829f80268dcd43b8061c03bb94e25,
     type: 3}
   shrapnelMaterials:
@@ -296,6 +298,20 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 46e037827568a99448b8170190f8363c, type: 2}
   smoke_emitter: {fileID: 3825451563943800905}
   explosion_emitter: {fileID: 3825451564278867696}
+--- !u!114 &8475685527971030020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3567844598526205272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e23fde6cd90bef040b9028a2e3b6e418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
 --- !u!1 &3825451563943800902
 GameObject:
   m_ObjectHideFlags: 0

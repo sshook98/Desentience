@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class RocketScript : MonoBehaviour
 {
+    public float damage;
     public float radius;
     public float force;
+    public bool exploding = false;
     public GameObject explosionEffect;
 
     private void Start()
@@ -25,6 +27,11 @@ public class RocketScript : MonoBehaviour
 
     void Explode()
     {
+        if (exploding == true)
+        {
+            return;
+        }
+        exploding = true;
         Instantiate(explosionEffect, transform.position, transform.rotation);
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
@@ -35,6 +42,13 @@ public class RocketScript : MonoBehaviour
             if (rb != null)
             {
                 rb.AddExplosionForce(force, transform.position, radius);
+            }
+            Healthy healthComponent = collider.gameObject.GetComponent<Healthy>();
+            if (healthComponent != null)
+            {
+                float distance = (collider.transform.position - transform.position).magnitude;
+                float scaledDamage = damage * (1 - (distance / radius));
+                healthComponent.TakeDamage(scaledDamage);
             }
         }
         Destroy(gameObject);
