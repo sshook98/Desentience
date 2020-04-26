@@ -8,7 +8,7 @@ public class ProjectileWeapon : Weapon
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public float bulletSpeed;
-    
+    public float bulletDamage;
     public AudioClip gunshot;
     public float timeOfLastShot;
     public float fireRate;
@@ -20,6 +20,11 @@ public class ProjectileWeapon : Weapon
         }
         timeOfLastShot = Time.time;
         GameObject projectile = Instantiate(projectilePrefab);
+        BulletScript bs = projectile.GetComponent<BulletScript>();
+        if (bs != null)
+        {
+            bs.damage = bulletDamage;
+        }
         projectile.transform.position = projectileSpawnPoint.position;
         projectile.transform.rotation = projectileSpawnPoint.rotation;
         Vector3 forward_vector = projectile.transform.rotation * Vector3.forward;
