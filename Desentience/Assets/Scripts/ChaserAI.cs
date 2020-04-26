@@ -20,10 +20,12 @@ public class ChaserAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         try
         {
+            Debug.Log("trying to access player from GameMangager");
             target = GameManager.Instance.player;
         }
         catch
         {
+            Debug.Log("trying to access player from FindGameObjectWithTag");
             GameObject go = GameObject.FindGameObjectWithTag("Player");
             if (go != null)
             {
