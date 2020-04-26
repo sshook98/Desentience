@@ -12,6 +12,7 @@ TagManager:
   - RemovableWall
   - HealthPickup
   - Elevator
+  - SlidingWalls
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - Enemy
   - Shrapnel
   - Projectiles
-  - 
+  - NoFriendlyFireEnemy
   - 
   - 
   - 
