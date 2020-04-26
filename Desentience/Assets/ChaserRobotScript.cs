@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RobotScript : MonoBehaviour
+public class ChaserRobotScript : MonoBehaviour
 {
 
     public float maxHealth = 100;
@@ -11,15 +11,9 @@ public class RobotScript : MonoBehaviour
     public ParticleSystem smoke_emitter;
     public GameObject explosionPrefab;
     public int explosionDamage = 40;
-    public Renderer head;
-    public Material flashMaterialOff;
-    public Material flashMaterialOn;
-    public float flashTime = 1;
-
+    public Material dyingBodyMaterial;
+    public Renderer body;
     private bool healthLow = false;
-    private bool healthCritical = false;
-    private float flashCount;
-    private bool flashState;
     public bool dying = false;
 
     private Rigidbody rb;
@@ -42,29 +36,10 @@ public class RobotScript : MonoBehaviour
         if (smoke_emitter == null)
         {
             Debug.LogError("No smoke emitter connected");
-        } else
+        }
+        else
         {
             smoke_emitter.Stop();
-        }
-
-
-        if (head == null)
-        {
-            Debug.LogError("No head renderer connected");
-        } else
-        {
-            flashCount = 0;
-            flashState = false;
-        }
-
-        if (flashMaterialOff == null)
-        {
-            Debug.LogError("No flash material (off) connected");
-        }
-
-        if (flashMaterialOn == null)
-        {
-            Debug.LogError("No flash material (on) connected");
         }
 
     }
@@ -78,9 +53,6 @@ public class RobotScript : MonoBehaviour
     {
         if (currentHealth <= 0 && !dying)
         {
-            Material[] matArray = head.materials;
-            matArray[0] = flashMaterialOn;
-            head.materials = matArray;
             dying = true;
         }
         if (!dying)
@@ -89,61 +61,19 @@ public class RobotScript : MonoBehaviour
 
             if (!healthLow && healthRatio < 0.5f) healthLow = true;
             if (healthLow && healthRatio >= 0.5f) healthLow = false;
-            if (!healthCritical && healthRatio < 0.25f) healthCritical = true;
-            if (healthCritical && healthRatio >= 0.25f) healthCritical = false;
 
             if (healthLow && smoke_emitter.isStopped) smoke_emitter.Play();
             if (!healthLow && smoke_emitter.isPlaying) smoke_emitter.Stop();
 
-            if (healthCritical && flashState == false)
-            {
-                if (flashCount >= flashTime)
-                {
-                    flashState = true;
-                    flashCount = 0;
-
-                    Material[] matArray = head.materials;
-                    matArray[0] = flashMaterialOn;
-                    head.materials = matArray;
-                }
-                else
-                {
-                    flashCount += Time.deltaTime;
-                }
-            }
-            else if (healthCritical && flashState == true)
-            {
-                if (flashCount >= flashTime)
-                {
-                    flashState = false;
-                    flashCount = 0;
-
-                    Material[] matArray = head.materials;
-                    matArray[0] = flashMaterialOff;
-                    head.materials = matArray;
-                }
-                else
-                {
-                    flashCount += Time.deltaTime;
-                }
-            }
-            else if (!healthCritical)
-            {
-                flashState = false;
-                flashCount = 0;
-
-                Material[] matArray = head.materials;
-                matArray[0] = flashMaterialOff;
-                head.materials = matArray;
-            }
-        } else
+        }
+        else
         {
+            body.material = dyingBodyMaterial;
             anim.SetBool("dying", true);
-            rb.velocity = Vector3.zero;
-            if (gameObject.GetComponentInParent<TestAI>())
+            /*if (gameObject.GetComponentInParent<ChaserAI>())
             {
-                gameObject.GetComponentInParent<TestAI>().wanderRadius = 0f;
-            }
+                gameObject.GetComponentInParent<ChaserAI>().agent.isStopped = true;
+            }*/
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))
             {
                 if (exploded == false && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
@@ -179,6 +109,7 @@ public class RobotScript : MonoBehaviour
             shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bullet")

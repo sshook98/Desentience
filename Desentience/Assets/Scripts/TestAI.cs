@@ -53,7 +53,7 @@ public class TestAI : MonoBehaviour
     private void Update()
     {
 
-        if (!inCombat) 
+        if (!inCombat && target) 
         {
             inCombat = ((target.transform.position - playerModel.position).magnitude < detectionRadius) ? true : false;
         }

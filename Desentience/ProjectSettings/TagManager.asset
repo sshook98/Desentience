@@ -12,6 +12,7 @@ TagManager:
   - RemovableWall
   - HealthPickup
   - Elevator
+  - Explosion
   layers:
   - Default
   - TransparentFX
