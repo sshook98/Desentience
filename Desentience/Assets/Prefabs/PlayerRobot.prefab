@@ -11049,15 +11049,17 @@ MonoBehaviour:
   fireRate: 5
   bulletSpeed: 25
   bulletLifetime: 1
-  bulletDamage: 5
-  laserDamage: 1
+  incomingBulletDamage: 20
+  incomingLaserDamage: 4
   leanIntensity: 10
   leanStep: 0.15
   timeBetweenShots: 0
   maxHealth: 100
   currentHealth: 100
   smoke_emitter: {fileID: 6929796367459922608}
-  explosion_emitter: {fileID: 6645771819493972295}
+  explosionPrefab: {fileID: 8678387269452534901, guid: 163b524e80d358b41b12c27c27a62cc3,
+    type: 3}
+  explosionDamage: 40
   head: {fileID: 3376704905894027195}
   flashMaterialOff: {fileID: 2100000, guid: ceb6a380b9e33c54c91afc5f4089214f, type: 2}
   flashMaterialOn: {fileID: 2100000, guid: 5532ec7c28976c34b88f60a9063fd5b0, type: 2}

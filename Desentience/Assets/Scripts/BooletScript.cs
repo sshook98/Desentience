@@ -5,6 +5,7 @@ using UnityEngine;
 public class BooletScript : MonoBehaviour
 {
     public float destroyDelay = 10f;
+    public GameObject shooter;
 
     public bool hasCollided = false;
     private bool setDestroy = false;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ElevatorController : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
         GameManager.Instance.elevator = this;
     }

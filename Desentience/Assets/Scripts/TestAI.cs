@@ -15,7 +15,6 @@ public class TestAI : MonoBehaviour
     public Transform playerModel;
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
-    public float fireRate;
     public float bulletSpeed;
     public float bulletLifetime;
     public float timeBetweenShots;
@@ -26,14 +25,6 @@ public class TestAI : MonoBehaviour
     public float wanderRadius;
     public float wanderTimer;
     private float timer;
-
-    public float leanIntensity;
-    public float leanStep;
-
-    private float oldh;
-    private float oldv;
-    private Vector3 speed;
-    private Vector3 lastPos = Vector3.zero;
 
     // Start is called before the first frame update
     private void Start()
@@ -106,11 +97,15 @@ public class TestAI : MonoBehaviour
         projectile.transform.LookAt(aimPosition);
 
         projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;
+        projectile.GetComponent<BooletScript>().shooter = gameObject;
 
         Rigidbody projRb = projectile.GetComponent<Rigidbody>();
         projRb.velocity = velocity;
 
         shotTimer = timeBetweenShots;
+
+        Animator anim = GetComponentInChildren<Animator>();
+        anim.Play("shoot");
     }
 
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask) 

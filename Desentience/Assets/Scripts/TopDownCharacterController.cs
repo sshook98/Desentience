@@ -11,8 +11,8 @@ public class TopDownCharacterController : MonoBehaviour
     public float fireRate;
     public float bulletSpeed;
     public float bulletLifetime;
-    public int bulletDamage = 5;
-    public int laserDamage = 1;
+    public int incomingBulletDamage = 5;
+    public int incomingLaserDamage = 1;
     public float leanIntensity;
     public float leanStep;
 
@@ -32,7 +32,8 @@ public class TopDownCharacterController : MonoBehaviour
     public float currentHealth = 100;
 
     public ParticleSystem smoke_emitter;
-    public ParticleSystem explosion_emitter;
+    public GameObject explosionPrefab;
+    public int explosionDamage = 40;
     public Renderer head;
     public Material flashMaterialOff;
     public Material flashMaterialOn;
@@ -49,9 +50,17 @@ public class TopDownCharacterController : MonoBehaviour
     public Material[] shrapnelMaterials;
 
     public AudioClip gunshot;
+    private bool exploded = false;
+    private bool explosionGrace = false;
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     private void Start()
     {
+        GameManager.Instance.player = gameObject;
         rb = GetComponent<Rigidbody>();
         timeBetweenShots = 1f / fireRate;
 
@@ -62,15 +71,6 @@ public class TopDownCharacterController : MonoBehaviour
         else
         {
             smoke_emitter.Stop();
-        }
-
-        if (explosion_emitter == null)
-        {
-            Debug.LogError("No explosion emitter connected");
-        }
-        else
-        {
-            explosion_emitter.Stop();
         }
 
         if (head == null)
@@ -94,11 +94,9 @@ public class TopDownCharacterController : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        anim = GetComponent<Animator>();
-        GameManager.Instance.player = gameObject;
-    }
+   
+
+
 
     private void FixedUpdate()
     {
@@ -197,9 +195,12 @@ public class TopDownCharacterController : MonoBehaviour
             rb.velocity = Vector3.zero;
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))
             {
-                if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f && !explosion_emitter.isPlaying)
+                if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f && !exploded)
                 {
-                    explosion_emitter.Play();
+                    GameObject explosion = Instantiate(explosionPrefab);
+                    explosion.transform.position = gameObject.transform.position;
+                    explosion.GetComponent<ExplosionScript>().damage = explosionDamage;
+                    exploded = true;
                 }
                 if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                 {
@@ -219,6 +220,7 @@ public class TopDownCharacterController : MonoBehaviour
         projectile.transform.LookAt(aimPosition);
 
         projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;
+        projectile.GetComponent<BooletScript>().shooter = gameObject;
 
         Rigidbody projRb = projectile.GetComponent<Rigidbody>();
         projRb.velocity = velocity;
@@ -227,6 +229,11 @@ public class TopDownCharacterController : MonoBehaviour
 
         AudioManager.Instance.PlayClipAtPoint(gunshot, projectileSpawnPoint.position, volume: 0.15f);
         anim.Play("shoot");
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayPlayerFiringSound();
+        }
     }
 
     private void TakeDamage(int damage)
@@ -240,6 +247,19 @@ public class TopDownCharacterController : MonoBehaviour
             head.materials = matArray;
             dying = true;
         }
+
+        //spawn shrapnel
+        for (int i = 0; i < Random.Range(10, 20); i++)
+        {
+            GameObject shrapnel = Instantiate(shrapnelPrefab);
+            shrapnel.transform.position = playerModel.position + Random.onUnitSphere;
+            shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
+            Vector3 velocity = Random.insideUnitSphere * 5;
+            Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
+            projRb.velocity = velocity;
+            shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
+            shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -248,30 +268,18 @@ public class TopDownCharacterController : MonoBehaviour
         {
             BooletScript hitBooletScript = collision.collider.GetComponent<BooletScript>();
 
-            if (!hitBooletScript.hasCollided)
+            if (!hitBooletScript.hasCollided && hitBooletScript.shooter != gameObject)
             {
                 hitBooletScript.hasCollided = true;
                 if (currentHealth > 0)
                 {
-                    TakeDamage(bulletDamage);
-
-                    //spawn shrapnel
-                    for (int i = 0; i < Random.Range(10, 20); i++)
-                    {
-                        GameObject shrapnel = Instantiate(shrapnelPrefab);
-                        shrapnel.transform.position = playerModel.position + Random.onUnitSphere;
-                        shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
-                        Vector3 velocity = Random.insideUnitSphere * 5;
-                        Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
-                        projRb.velocity = velocity;
-                        shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
-                        shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
-                    }
+                    TakeDamage(incomingBulletDamage);
                 }
             }
             
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -300,7 +308,21 @@ public class TopDownCharacterController : MonoBehaviour
             }
         } else if (other.tag == "Laserbeam")
         {
-            TakeDamage(laserDamage);
+            TakeDamage(incomingLaserDamage);
         }
+
+        if (other.tag == "Explosion" && explosionGrace == false)
+        {
+            TakeDamage(other.GetComponent<ExplosionScript>().damage);
+            explosionGrace = true;
+            StartCoroutine(ExplosionCoroutine());
+        }
+    }
+
+    IEnumerator ExplosionCoroutine()
+    {
+        yield return new WaitForSeconds(1);
+
+        explosionGrace = false;
     }
 }
