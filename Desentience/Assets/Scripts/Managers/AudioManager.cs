@@ -86,6 +86,7 @@ public class AudioManager : MonoBehaviour
         audioSource.PlayOneShot(clip, volume);
         Destroy(go, clip.length);
     }
+}
 
 /**
 public class AudioManager : MonoBehaviour

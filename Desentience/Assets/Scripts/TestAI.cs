@@ -61,7 +61,7 @@ public class TestAI : MonoBehaviour
                 return;
             }
         }
-        if (!inCombat) 
+        if (!inCombat)
         {
             inCombat = ((target.transform.position - playerModel.position).magnitude < detectionRadius) ? true : false;
         }

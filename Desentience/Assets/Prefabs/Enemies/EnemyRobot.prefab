@@ -1049,6 +1049,7 @@ GameObject:
   - component: {fileID: 7690715938768477389}
   - component: {fileID: 6610668004526013248}
   - component: {fileID: 6610668004526013249}
+  - component: {fileID: 6654233039911353817}
   m_Layer: 9
   m_Name: EnemyRobot
   m_TagString: Untagged
@@ -1131,8 +1132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb633b0455f1ca46bed8ee03ea3ad10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  healthComponent: {fileID: 0}
   smoke_emitter: {fileID: 1594398531001892160}
   explosionPrefab: {fileID: 8678387269452534901, guid: 163b524e80d358b41b12c27c27a62cc3,
     type: 3}
@@ -1186,6 +1186,20 @@ MonoBehaviour:
   maxLeanSpeed: 0.1
   leanIntensity: 10
   leanStep: 0.15
+--- !u!114 &6654233039911353817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6610668004526013255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e23fde6cd90bef040b9028a2e3b6e418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
 --- !u!1 &6636623147299233354
 GameObject:
   m_ObjectHideFlags: 0

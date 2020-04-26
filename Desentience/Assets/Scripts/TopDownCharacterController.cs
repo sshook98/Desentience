@@ -230,10 +230,6 @@ public class TopDownCharacterController : MonoBehaviour
         AudioManager.Instance.PlayClipAtPoint(gunshot, projectileSpawnPoint.position, volume: 0.15f);
         anim.Play("shoot");
 
-        if (AudioManager.instance != null)
-        {
-            AudioManager.instance.PlayPlayerFiringSound();
-        }
     }
 
     private void TakeDamage(int damage)

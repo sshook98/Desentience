@@ -5033,6 +5033,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 17cbf1063c35d684fb4d51da8afd3090, type: 2}
   - {fileID: 2100000, guid: 46e037827568a99448b8170190f8363c, type: 2}
   robotModel: {fileID: 7256142882000420310}
+  incomingBulletDamage: 20
+  incomingLaserDamage: 4
 --- !u!1 &6971619392269982800
 GameObject:
   m_ObjectHideFlags: 0

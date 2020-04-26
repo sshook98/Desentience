@@ -147,7 +147,8 @@ public class TurretAgent : MonoBehaviour
 
     private void TakeDamage(int damage)
     {
-        currentHealth -= damage;
+        // testbullet handles the damage itself
+        // currentHealth -= damage;
 
         if (damage > 0)
         {

@@ -162,7 +162,6 @@ GameObject:
   - component: {fileID: 2376437405202774400}
   - component: {fileID: 2376437405202774401}
   - component: {fileID: 2376437405202774403}
-  - component: {fileID: 7815453964605971732}
   - component: {fileID: 2261256908707140316}
   m_Layer: 9
   m_Name: Health Bar
@@ -248,20 +247,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
---- !u!114 &7815453964605971732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2376437405202774404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e23fde6cd90bef040b9028a2e3b6e418, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
 --- !u!114 &2261256908707140316
 MonoBehaviour:
   m_ObjectHideFlags: 0
