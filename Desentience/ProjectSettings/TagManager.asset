@@ -13,6 +13,7 @@ TagManager:
   - HealthPickup
   - Elevator
   - SlidingWalls
+  - Explosion
   layers:
   - Default
   - TransparentFX
