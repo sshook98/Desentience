@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActivateLaserBeamButton : MonoBehaviour
+public class ActivateSlidingDoorButton : MonoBehaviour
 {
     public Material pressedMaterial;
     public Material unpressedMaterial;
     private bool isPressed = false;
-    public LaserBeamController[] laserBeams;
+    public GameObject walls;
+    private Animation slidingAnimation;
+    private bool heckedUp = true;
 
     private Renderer rend;
 
@@ -15,14 +17,8 @@ public class ActivateLaserBeamButton : MonoBehaviour
     {
         rend = GetComponent<Renderer>();
         rend.material = unpressedMaterial;
-
-        if (laserBeams != null)
-        {
-            for (int i = 0; i < laserBeams.Length; i++)
-            {
-                laserBeams[i].isOnTimer = false;
-            }
-        }
+        walls = GameObject.FindGameObjectWithTag("SlidingWalls");
+        slidingAnimation = walls.GetComponent<Animation>();
 
     }
 
@@ -39,13 +35,10 @@ public class ActivateLaserBeamButton : MonoBehaviour
             {
                 rend.material = unpressedMaterial;
             }
-
-            if (laserBeams != null)
+            if (walls != null && isPressed && heckedUp)
             {
-                for (int i = 0; i < laserBeams.Length; i++)
-                {
-                    laserBeams[i].activateBeam();
-                }
+                heckedUp = false;
+                slidingAnimation.Play("slidingwalls");
             }
         }
     }

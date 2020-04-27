@@ -12,6 +12,7 @@ TagManager:
   - RemovableWall
   - HealthPickup
   - Elevator
+  - SlidingWalls
   - Explosion
   layers:
   - Default
