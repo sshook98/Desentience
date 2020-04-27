@@ -41,7 +41,15 @@ public class ChaserAI : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        
+        if (target == null)
+        {
+            target = GameManager.Instance.player;
+            if (target == null)
+            {
+                Debug.Log("Cannot find player in GameManager");
+                return;
+            }
+        }
         if ((target.transform.position - gameObject.transform.position).magnitude < detectionRadius)
         {
             Robotmodel.LookAt(target.transform);

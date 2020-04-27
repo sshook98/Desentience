@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    public float damage;
+    public float damage = 5;
     private void OnCollisionEnter(Collision collision)
     {
-        Collider collider = collision.collider;
-        Healthy healthComponent = collider.gameObject.GetComponent<Healthy>();
-        if (healthComponent != null)
+        if (collision.gameObject.tag == "Shrapnel")
         {
-            healthComponent.TakeDamage(damage);
+            return;
         }
+        // Not working properly on all enemies
+        //Healthy healthComponent = collision.collider.gameObject.GetComponent<Healthy>();
+        //if (healthComponent != null)
+        //{
+        //    healthComponent.TakeDamage(damage);
+        //}
         Destroy(gameObject);
     }
 }

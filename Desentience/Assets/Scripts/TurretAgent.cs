@@ -136,26 +136,24 @@ public class TurretAgent : MonoBehaviour
         Vector3 velocity = (aimPosition - transform.position).normalized * bulletSpeed;
         projectile.transform.LookAt(aimPosition);
 
-        projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;
-        projectile.GetComponent<BooletScript>().shooter = gameObject;
-
+        BooletScript booletScript = projectile.GetComponent<BooletScript>();
+        if (booletScript != null)
+        {
+            booletScript.destroyDelay = bulletLifetime;
+            booletScript.shooter = gameObject;
+        }
         Rigidbody projRb = projectile.GetComponent<Rigidbody>();
         projRb.velocity = velocity;
 
         shotTimer = timeBetweenShots;
     }
 
-    private void TakeDamage(int damage)
+    private void SpawnShrapnel()
     {
-        // testbullet handles the damage itself
-        // currentHealth -= damage;
-
-        if (damage > 0)
-        {
-            //spawn shrapnel
             for (int i = 0; i < Random.Range(10, 20); i++)
             {
                 GameObject shrapnel = Instantiate(shrapnelPrefab);
+                shrapnel.transform.SetParent(transform);
                 shrapnel.transform.position = turretModel.position + Random.onUnitSphere;
                 shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
                 Vector3 velocity = Random.insideUnitSphere * 5;
@@ -164,22 +162,19 @@ public class TurretAgent : MonoBehaviour
                 shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
                 shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
             }
-        }
-
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        for (int i = 0; i < Random.Range(10, 20); i++)
+        if (collision.gameObject.tag == "Bullet")
         {
-            GameObject shrapnel = Instantiate(shrapnelPrefab);
-            shrapnel.transform.position = turretModel.position + Random.onUnitSphere;
-            shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
-            Vector3 velocity = Random.insideUnitSphere * 5;
-            Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
-            projRb.velocity = velocity;
-            shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
-            shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
+            SpawnShrapnel();
+            BulletScript bs = collision.collider.GetComponent<BulletScript>();
+            if (bs != null)
+            {
+                Debug.Log("Turret is taking " + bs.damage + " damage");
+                healthComponent.TakeDamage(bs.damage);
+            }
         }
     }
 

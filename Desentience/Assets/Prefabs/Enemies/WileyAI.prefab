@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2407361402884196988}
   - component: {fileID: 2407361402884196986}
   - component: {fileID: 2407361402884196987}
-  - component: {fileID: 8506882084383837712}
   m_Layer: 9
   m_Name: WileyAI
   m_TagString: Untagged
@@ -34,7 +33,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1266167982978000210}
-  - {fileID: 1000412198494406933}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -136,7 +134,7 @@ MonoBehaviour:
   inCombat: 0
   detectionRadius: 15
   playerModel: {fileID: 1608305463529804782}
-  projectilePrefab: {fileID: 8528442089839199584, guid: 25b5270912ad7487990c9c17b90a73a5,
+  projectilePrefab: {fileID: 6321413415816534705, guid: 3570d3c87e10fa1498adaffa1f2fad90,
     type: 3}
   projectileSpawnPoint: {fileID: 3907193958668293826}
   bulletSpeed: 15
@@ -144,32 +142,13 @@ MonoBehaviour:
   timeBetweenShots: 1
   wanderRadius: 3
   wanderTimer: 3
---- !u!114 &8506882084383837712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2407361402884196985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e23fde6cd90bef040b9028a2e3b6e418, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
 --- !u!1001 &3249594120493461650
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 2407361402884196984}
+    m_TransformParent: {fileID: 1266167982978000210}
     m_Modifications:
-    - target: {fileID: 2376437405202774404, guid: 75aee0bbc30440543a114c7ec7514090,
-        type: 3}
-      propertyPath: m_Name
-      value: Health Bar
-      objectReference: {fileID: 0}
     - target: {fileID: 2376437405202774407, guid: 75aee0bbc30440543a114c7ec7514090,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -188,17 +167,17 @@ PrefabInstance:
     - target: {fileID: 2376437405202774407, guid: 75aee0bbc30440543a114c7ec7514090,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2376437405202774407, guid: 75aee0bbc30440543a114c7ec7514090,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2376437405202774407, guid: 75aee0bbc30440543a114c7ec7514090,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2376437405202774407, guid: 75aee0bbc30440543a114c7ec7514090,
         type: 3}
@@ -275,14 +254,23 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2376437405202774407, guid: 75aee0bbc30440543a114c7ec7514090,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.015000007
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376437405202774407, guid: 75aee0bbc30440543a114c7ec7514090,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.0100000035
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376437405202774404, guid: 75aee0bbc30440543a114c7ec7514090,
+        type: 3}
+      propertyPath: m_Name
+      value: Health Bar
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75aee0bbc30440543a114c7ec7514090, type: 3}
---- !u!224 &1000412198494406933 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2376437405202774407, guid: 75aee0bbc30440543a114c7ec7514090,
-    type: 3}
-  m_PrefabInstance: {fileID: 3249594120493461650}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5345661243337235977
 PrefabInstance:
   m_ObjectHideFlags: 0

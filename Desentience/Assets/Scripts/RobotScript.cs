@@ -168,6 +168,7 @@ public class RobotScript : MonoBehaviour
         for (int i = 0; i < Random.Range(10, 20); i++)
         {
             GameObject shrapnel = Instantiate(shrapnelPrefab);
+            shrapnel.transform.SetParent(transform);
             shrapnel.transform.position = robotModel.position + Random.onUnitSphere;
             shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
             Vector3 velocity = Random.insideUnitSphere * 5;
@@ -177,11 +178,17 @@ public class RobotScript : MonoBehaviour
             shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            SpawnShrapnel();        
+            SpawnShrapnel();
+            BulletScript bulletScript = collision.collider.gameObject.GetComponent<BulletScript>();
+            if (bulletScript != null)
+            {
+                healthComponent.TakeDamage(bulletScript.damage);
+            }
         }
     }
 

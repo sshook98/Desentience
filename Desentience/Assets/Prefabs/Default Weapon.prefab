@@ -47,7 +47,7 @@ MonoBehaviour:
     type: 3}
   projectileSpawnPoint: {fileID: 0}
   bulletSpeed: 25
-  bulletLifetime: 1
+  bulletDamage: 10
   gunshot: {fileID: 8300000, guid: ffc84f5ae4b4fd74781df0ac4fa99928, type: 3}
   timeOfLastShot: 0
   fireRate: 5

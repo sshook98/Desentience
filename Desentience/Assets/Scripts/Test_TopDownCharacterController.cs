@@ -270,35 +270,31 @@ public class Test_TopDownCharacterController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            BooletScript hitBooletScript = collision.collider.GetComponent<BooletScript>();
-
-            if (!hitBooletScript.hasCollided)
+            SpawnShrapnel();
+            BulletScript bs = collision.collider.GetComponent<BulletScript>();
+            if (bs != null)
             {
-                hitBooletScript.hasCollided = true;
-                if (healthComponent.currentHealth > 0)
-                {
-                    //TODO: Move damage to bullet / projectile script
-                    // TakeDamage(bulletDamage);
-
-                    //spawn shrapnel
-                    for (int i = 0; i < Random.Range(10, 20); i++)
-                    {
-                        GameObject shrapnel = Instantiate(shrapnelPrefab);
-                        shrapnel.transform.position = playerModel.position + Random.onUnitSphere;
-                        shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
-                        Vector3 velocity = Random.insideUnitSphere * 5;
-                        Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
-                        projRb.velocity = velocity;
-                        shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
-                        shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
-                    }
-                }
+                healthComponent.TakeDamage(bs.damage);
             }
-
         }
     }
 
-    /**
+    private void SpawnShrapnel()
+    {
+        for (int i = 0; i < Random.Range(10, 20); i++)
+        {
+            GameObject shrapnel = Instantiate(shrapnelPrefab);
+            shrapnel.transform.SetParent(transform);
+            shrapnel.transform.position = playerModel.position + Random.onUnitSphere;
+            shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
+            Vector3 velocity = Random.insideUnitSphere * 5;
+            Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
+            projRb.velocity = velocity;
+            shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
+            shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "KeyCard")
@@ -315,20 +311,23 @@ public class Test_TopDownCharacterController : MonoBehaviour
         }
         else if (other.tag == "HealthPickup")
         {
-            if (currentHealth < maxHealth)
+            if (healthComponent.currentHealth < healthComponent.maxHealth)
             {
-                currentHealth += maxHealth / 2;
-                if (currentHealth > maxHealth)
+                healthComponent.currentHealth += healthComponent.maxHealth / 2;
+                if (healthComponent.currentHealth > healthComponent.maxHealth)
                 {
-                    currentHealth = maxHealth;
+                    healthComponent.currentHealth = healthComponent.maxHealth;
                 }
                 other.gameObject.SetActive(false);
             }
         }
         else if (other.tag == "Laserbeam")
         {
-            TakeDamage(laserDamage);
+            healthComponent.TakeDamage(laserDamage);
+        }
+        else
+        {
+            Debug.Log("Unexpected trigger entry with " + other.name);
         }
     }
-    **/
 }

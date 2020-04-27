@@ -9,7 +9,6 @@ public class TestAI : MonoBehaviour
     private GameObject target;
     public bool inCombat = false;
     private Vector3 aimPosition;
-    
     public float detectionRadius = 15.0f;
 
     public Transform playerModel;
@@ -25,6 +24,8 @@ public class TestAI : MonoBehaviour
     public float wanderRadius;
     public float wanderTimer;
     private float timer;
+
+    public Healthy healthComponent;
 
     // Start is called before the first frame update
     private void Start()
@@ -50,9 +51,18 @@ public class TestAI : MonoBehaviour
         timer = wanderTimer;
     }
 
+    private void Awake()
+    {
+        healthComponent = GetComponentInChildren<Healthy>();
+    }
+
     // Update is called once per frame
     private void Update()
     {
+        if (healthComponent.currentHealth < 0)
+        {
+            return;
+        }
         if (target == null)
         {
             target = GameManager.Instance.player;
@@ -96,8 +106,12 @@ public class TestAI : MonoBehaviour
         Vector3 velocity = (aimPosition - playerModel.position).normalized * bulletSpeed;
         projectile.transform.LookAt(aimPosition);
 
-        projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;
-        projectile.GetComponent<BooletScript>().shooter = gameObject;
+        BooletScript booletScript = projectile.GetComponent<BooletScript>();
+        if (booletScript != null)
+        {
+            projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;
+            projectile.GetComponent<BooletScript>().shooter = gameObject;
+        }
 
         Rigidbody projRb = projectile.GetComponent<Rigidbody>();
         projRb.velocity = velocity;

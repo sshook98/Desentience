@@ -20,7 +20,6 @@ public class HealthBar : MonoBehaviour
             healthFillImage.fillAmount = (healthComponent.currentHealth / healthComponent.maxHealth);
         }
         lastHealthValue = healthComponent.currentHealth;
-        Debug.Log("lastHealthValue = " + lastHealthValue);
     }
 
 }

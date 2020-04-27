@@ -5,6 +5,7 @@ using UnityEngine;
 public class ChaserRobotScript : MonoBehaviour
 {
 
+    public Healthy healthComponent;
     public float maxHealth = 100;
     public float currentHealth = 100;
 
@@ -47,17 +48,18 @@ public class ChaserRobotScript : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        healthComponent = GetComponent<Healthy>();
     }
 
     void Update()
     {
-        if (currentHealth <= 0 && !dying)
+        if (healthComponent.currentHealth <= 0 && !dying)
         {
             dying = true;
         }
         if (!dying)
         {
-            float healthRatio = currentHealth / maxHealth;
+            float healthRatio = healthComponent.currentHealth / healthComponent.maxHealth;
 
             if (!healthLow && healthRatio < 0.5f) healthLow = true;
             if (healthLow && healthRatio >= 0.5f) healthLow = false;
@@ -92,24 +94,19 @@ public class ChaserRobotScript : MonoBehaviour
         }
     }
 
-    private void TakeDamage(int damage)
+    private void SpawnShrapnel()
     {
-        currentHealth -= damage;
-
-        if (damage > 0)
+        for (int i = 0; i < Random.Range(10, 20); i++)
         {
-            //spawn shrapnel
-            for (int i = 0; i < Random.Range(10, 20); i++)
-            {
-                GameObject shrapnel = Instantiate(shrapnelPrefab);
-                shrapnel.transform.position = robotModel.position + Random.onUnitSphere;
-                shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
-                Vector3 velocity = Random.insideUnitSphere * 5;
-                Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
-                projRb.velocity = velocity;
-                shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
-                shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
-            }
+            GameObject shrapnel = Instantiate(shrapnelPrefab);
+            shrapnel.transform.SetParent(transform);
+            shrapnel.transform.position = robotModel.position + Random.onUnitSphere;
+            shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
+            Vector3 velocity = Random.insideUnitSphere * 5;
+            Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
+            projRb.velocity = velocity;
+            shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
+            shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
         }
     }
 
@@ -118,16 +115,21 @@ public class ChaserRobotScript : MonoBehaviour
         if (collision.gameObject.tag == "Bullet")
         {
             BooletScript hitBooletScript = collision.collider.GetComponent<BooletScript>();
-
-            if (!hitBooletScript.hasCollided && hitBooletScript.shooter != gameObject.transform.parent.gameObject)
+            BulletScript bulletScript = collision.collider.GetComponent<BulletScript>();
+            if (hitBooletScript != null)
             {
-                hitBooletScript.hasCollided = true;
-                if (currentHealth > 0)
+                if (!hitBooletScript.hasCollided && hitBooletScript.shooter != gameObject.transform.parent.gameObject)
                 {
-                    TakeDamage(incomingBulletDamage);
+                    hitBooletScript.hasCollided = true;
+                    if (currentHealth > 0)
+                    {
+                        healthComponent.TakeDamage(incomingBulletDamage);
+                    }
                 }
+            } else if (bulletScript != null)
+            {
+                healthComponent.TakeDamage(bulletScript.damage);
             }
-
         }
     }
 
@@ -138,11 +140,11 @@ public class ChaserRobotScript : MonoBehaviour
             explosionGrace = true;
             StartCoroutine(ExplosionCoroutine());
 
-            TakeDamage(other.GetComponent<ExplosionScript>().damage);
+            healthComponent.TakeDamage(other.GetComponent<ExplosionScript>().damage);
         }
         else if (other.tag == "Laserbeam")
         {
-            TakeDamage(incomingLaserDamage);
+            healthComponent.TakeDamage(incomingLaserDamage);
         }
     }
 
