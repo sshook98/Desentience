@@ -11,7 +11,7 @@ public class Test_TopDownCharacterController : MonoBehaviour
     public float fireRate;
     public float bulletSpeed;
     public float bulletLifetime;
-    public int laserDamage = 1;
+    public int incomingLaserDamage = 1;
     public float leanIntensity;
     public float leanStep;
     
@@ -23,7 +23,6 @@ public class Test_TopDownCharacterController : MonoBehaviour
     private float oldv;
 
     public ParticleSystem smoke_emitter;
-    public ParticleSystem explosion_emitter;
     public Renderer head;
     public Material flashMaterialOff;
     public Material flashMaterialOn;
@@ -46,6 +45,11 @@ public class Test_TopDownCharacterController : MonoBehaviour
     public Item selectedItem;
     public Item equippedItem;
     public GameObject itemInstance;
+
+    private bool exploded = false;
+    private bool explosionGrace = false;
+    public GameObject explosionPrefab;
+    public int explosionDamage = 40;
 
     private void Equip(Item item)
     {
@@ -97,15 +101,6 @@ public class Test_TopDownCharacterController : MonoBehaviour
         else
         {
             smoke_emitter.Stop();
-        }
-
-        if (explosion_emitter == null)
-        {
-            Debug.LogError("No explosion emitter connected");
-        }
-        else
-        {
-            explosion_emitter.Stop();
         }
 
         if (head == null)
@@ -238,11 +233,15 @@ public class Test_TopDownCharacterController : MonoBehaviour
         {
             anim.SetBool("dying", true);
             rb.velocity = Vector3.zero;
+
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))
             {
-                if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f && !explosion_emitter.isPlaying)
+                if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f && !exploded)
                 {
-                    explosion_emitter.Play();
+                    GameObject explosion = Instantiate(explosionPrefab);
+                    explosion.transform.position = gameObject.transform.position;
+                    explosion.GetComponent<ExplosionScript>().damage = explosionDamage;
+                    exploded = true;
                 }
                 if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                 {
@@ -323,19 +322,33 @@ public class Test_TopDownCharacterController : MonoBehaviour
         }
         else if (other.tag == "Laserbeam")
         {
-            healthComponent.TakeDamage(laserDamage);
+            if (incomingLaserDamage > 0)
+            {
+                healthComponent.TakeDamage(incomingLaserDamage);
+                SpawnShrapnel();
+            }
         }
         else if (other.tag == "Explosion")
         {
             ExplosionScript es = other.GetComponent<ExplosionScript>();
-            if (es != null)
+            if (es != null && explosionGrace == false && es.damage > 0)
             {
+                explosionGrace = true;
+                StartCoroutine(ExplosionCoroutine());
                 healthComponent.TakeDamage(es.damage);
+                SpawnShrapnel();
             }
         }
         else
         {
             Debug.Log("Unexpected trigger entry with " + other.name);
         }
+    }
+
+    IEnumerator ExplosionCoroutine()
+    {
+        yield return new WaitForSeconds(1);
+
+        explosionGrace = false;
     }
 }

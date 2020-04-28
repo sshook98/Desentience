@@ -16,8 +16,6 @@ public class TopDownCharacterController : MonoBehaviour
     public float leanIntensity;
     public float leanStep;
 
-    public Item selectedItem;
-
     public float timeBetweenShots;
     private float shotTimer = 0;
     private Rigidbody rb;
@@ -49,7 +47,6 @@ public class TopDownCharacterController : MonoBehaviour
     public GameObject shrapnelPrefab;
     public Material[] shrapnelMaterials;
 
-    public AudioClip gunshot;
     private bool exploded = false;
     private bool explosionGrace = false;
 
@@ -227,9 +224,12 @@ public class TopDownCharacterController : MonoBehaviour
 
         shotTimer = timeBetweenShots;
 
-        AudioManager.Instance.PlayClipAtPoint(gunshot, projectileSpawnPoint.position, volume: 0.15f);
         anim.Play("shoot");
 
+        if (AudioManager.Instance != null)
+        {
+            //AudioManager.Instance.PlayPlayerFiringSound();
+        }
     }
 
     private void TakeDamage(int damage)
@@ -244,18 +244,22 @@ public class TopDownCharacterController : MonoBehaviour
             dying = true;
         }
 
-        //spawn shrapnel
-        for (int i = 0; i < Random.Range(10, 20); i++)
+        if (damage > 0)
         {
-            GameObject shrapnel = Instantiate(shrapnelPrefab);
-            shrapnel.transform.position = playerModel.position + Random.onUnitSphere;
-            shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
-            Vector3 velocity = Random.insideUnitSphere * 5;
-            Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
-            projRb.velocity = velocity;
-            shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
-            shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
+            //spawn shrapnel
+            for (int i = 0; i < Random.Range(10, 20); i++)
+            {
+                GameObject shrapnel = Instantiate(shrapnelPrefab);
+                shrapnel.transform.position = playerModel.position + Random.onUnitSphere;
+                shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
+                Vector3 velocity = Random.insideUnitSphere * 5;
+                Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
+                projRb.velocity = velocity;
+                shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
+                shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
+            }
         }
+
     }
 
     private void OnCollisionEnter(Collision collision)

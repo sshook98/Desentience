@@ -168,14 +168,47 @@ public class TurretAgent : MonoBehaviour
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            SpawnShrapnel();
             BulletScript bs = collision.collider.GetComponent<BulletScript>();
             if (bs != null)
             {
-                Debug.Log("Turret is taking " + bs.damage + " damage");
-                healthComponent.TakeDamage(bs.damage);
+                if (bs.damage > 0)
+                {
+                    Debug.Log("Turret is taking " + bs.damage + " damage");
+                    healthComponent.TakeDamage(bs.damage);
+                    SpawnShrapnel();
+                }
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Explosion" && explosionGrace == false)
+        {
+            if (other.GetComponent<ExplosionScript>().damage > 0)
+            {
+                explosionGrace = true;
+                StartCoroutine(ExplosionCoroutine());
+                healthComponent.TakeDamage(other.GetComponent<ExplosionScript>().damage);
+                SpawnShrapnel();
+            }
+
+        }
+        else if (other.tag == "Laserbeam")
+        {
+            if (incomingLaserDamage > 0)
+            {
+                healthComponent.TakeDamage(incomingLaserDamage);
+                SpawnShrapnel();
+            }
+        }
+    }
+
+    IEnumerator ExplosionCoroutine()
+    {
+        yield return new WaitForSeconds(1);
+
+        explosionGrace = false;
     }
 
 }

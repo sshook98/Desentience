@@ -196,13 +196,22 @@ public class RobotScript : MonoBehaviour
     {
         if (other.tag == "Explosion" && explosionGrace == false)
         {
-            explosionGrace = true;
-            StartCoroutine(ExplosionCoroutine());
-            healthComponent.TakeDamage(other.GetComponent<ExplosionScript>().damage);
+            if (other.GetComponent<ExplosionScript>().damage > 0)
+            {
+                explosionGrace = true;
+                StartCoroutine(ExplosionCoroutine());
+                healthComponent.TakeDamage(other.GetComponent<ExplosionScript>().damage);
+                SpawnShrapnel();
+            }
+
         }
         else if (other.tag == "Laserbeam")
         {
             healthComponent.TakeDamage(incomingLaserDamage);
+            if (incomingLaserDamage > 0)
+            {
+                SpawnShrapnel();
+            }
         }
     }
 
