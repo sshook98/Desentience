@@ -325,6 +325,14 @@ public class Test_TopDownCharacterController : MonoBehaviour
         {
             healthComponent.TakeDamage(laserDamage);
         }
+        else if (other.tag == "Explosion")
+        {
+            ExplosionScript es = other.GetComponent<ExplosionScript>();
+            if (es != null)
+            {
+                healthComponent.TakeDamage(es.damage);
+            }
+        }
         else
         {
             Debug.Log("Unexpected trigger entry with " + other.name);
