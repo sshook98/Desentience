@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
         else
         {
             currentLevel += 1;
-            LoadScene(levelNames[currentLevel + 1]);
+            LoadScene(levelNames[currentLevel]);
         }
     }
 
