@@ -162,6 +162,6 @@ public class GameManager : MonoBehaviour
 
     public void ShowVictoryScreen()
     {
-
+        UIManager.Instance.TriggerPanelTransition(UIManager.Instance.gameCompleteMenu);
     }
 }
