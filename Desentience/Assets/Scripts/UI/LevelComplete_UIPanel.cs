@@ -24,7 +24,7 @@ public class LevelComplete_UIPanel : Base_UIPanel
 
     void NextLevelButtonPressed()
     {
-        GameManager.Instance.StartGame();
+        GameManager.Instance.NextLevel();
     }
 
     void MainMenuButtonPressed()

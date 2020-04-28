@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     //  TitleScreen is loaded, GameManager and UIManager Awake()
     //  Player presses "Wake Up"
     //    -Can also make this automatic when using the editor, for ease of testing
-    //  Scene specified by 'gameScene' string is loaded
+    //  Scene specified by 'firstScene' string is loaded
     //  All monobehaviors Awake()
     //    -This is where they assign themselves to the manager
     //  Monobehaviors call Start() when first used. It is safe to use the GameManager at this point, as everything has been assigned (barring bugs)
@@ -33,11 +33,12 @@ public class GameManager : MonoBehaviour
     //Add a public enum corresponding to each testing scene and the actual FirstLevel scene
     //This would let us change which scene will load from a drop-down in the editor
 
-    public Inventory inventory;
+    // public Inventory inventory;
 
-    //Right now, change gameScene to the name of the scene you want to load
+    // Use unity inspector to change this array of levels
     [SerializeField]
-    private string gameScene = "ZachTestingScene";
+    private string[] levelNames;
+    private string titleScreen = "TitleScreen";
 
     [SerializeField]
     private bool isPaused = false;
@@ -95,11 +96,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private int currentLevel;
     public void StartGame()
     {
-        LoadScene(gameScene);
+        LoadScene(levelNames[0]);
+        currentLevel = 0;
         UIManager.Instance.TriggerPanelTransition(null);
-
     }
 
     public void QuitGame()
@@ -116,7 +118,7 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        LoadScene("TitleScreen");
+        LoadScene(titleScreen);
         Time.timeScale = 1.0f;
         isPaused = false;
         UIManager.Instance.TriggerPanelTransition(UIManager.Instance.mainMenu);
@@ -145,4 +147,21 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.TriggerPanelTransition(UIManager.Instance.levelCompleteMenu);
     }
 
+    public void NextLevel()
+    {
+        if (currentLevel + 1 >= levelNames.Length)
+        {
+            ShowVictoryScreen();
+        }
+        else
+        {
+            currentLevel += 1;
+            LoadScene(levelNames[currentLevel + 1]);
+        }
+    }
+
+    public void ShowVictoryScreen()
+    {
+
+    }
 }
