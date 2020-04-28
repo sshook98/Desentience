@@ -36,8 +36,6 @@ public class TurretAgent : MonoBehaviour
     private bool dying;
 
     private NavMeshAgent agent;
-
-    public int incomingBulletDamage = 20;
     public int incomingLaserDamage = 4;
 
     private void Start()
@@ -135,13 +133,13 @@ public class TurretAgent : MonoBehaviour
         projectile.transform.position = projectileSpawnPoint.position;
         Vector3 velocity = (aimPosition - transform.position).normalized * bulletSpeed;
         projectile.transform.LookAt(aimPosition);
-
+/*
         BooletScript booletScript = projectile.GetComponent<BooletScript>();
         if (booletScript != null)
         {
             booletScript.destroyDelay = bulletLifetime;
             booletScript.shooter = gameObject;
-        }
+        }*/
         Rigidbody projRb = projectile.GetComponent<Rigidbody>();
         projRb.velocity = velocity;
 

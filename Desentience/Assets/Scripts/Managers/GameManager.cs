@@ -102,6 +102,14 @@ public class GameManager : MonoBehaviour
         LoadScene(levelNames[0]);
         currentLevel = 0;
         UIManager.Instance.TriggerPanelTransition(null);
+        keyCardCollected = false;
+    }
+
+    public void RestartLevel()
+    {
+        LoadScene(levelNames[currentLevel]);
+        UIManager.Instance.TriggerPanelTransition(null);
+        keyCardCollected = false;
     }
 
     public void QuitGame()
@@ -155,8 +163,10 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            UIManager.Instance.TriggerPanelTransition(null);
             currentLevel += 1;
             LoadScene(levelNames[currentLevel]);
+            keyCardCollected = false;
         }
     }
 

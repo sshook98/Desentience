@@ -18,7 +18,6 @@ public class NoAimTurretController : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public ParticleSystem smokeEmitter;
-    public ParticleSystem explosionEmitter;
     public GameObject shrapnelPrefab;
     public Material[] shrapnelMaterials;
     public Transform turretModel;
@@ -26,6 +25,14 @@ public class NoAimTurretController : MonoBehaviour
     private int currentHealth;
     private bool dying = false;
     private float shotTimer = 0;
+
+    public GameObject explosionPrefab;
+    public int explosionDamage = 40;
+    private bool exploded = false;
+    private bool explosionGrace = false;
+
+    public int incomingLaserDamage = 4;
+
 
 
     void Start()
@@ -66,9 +73,12 @@ public class NoAimTurretController : MonoBehaviour
             }
         } else
         {
-            if (!explosionEmitter.isPlaying)
+            if (!exploded)
             {
-                explosionEmitter.Play();
+                GameObject explosion = Instantiate(explosionPrefab);
+                explosion.transform.position = gameObject.transform.position;
+                explosion.GetComponent<ExplosionScript>().damage = explosionDamage;
+                exploded = true;
                 Destroy(gameObject, 0.25f);
             }
         }
@@ -80,7 +90,7 @@ public class NoAimTurretController : MonoBehaviour
         Vector3 direction = (aimTarget.transform.position - projectileSpawnPoint.position);
         projectile.transform.position = projectileSpawnPoint.position;
         projectile.transform.LookAt(aimTarget.position);
-        projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;
+       /* projectile.GetComponent<BooletScript>().destroyDelay = bulletLifetime;*/
         Rigidbody projectileRB =  projectile.GetComponent<Rigidbody>().GetComponent<Rigidbody>();
         projectileRB.velocity = direction.normalized * bulletSpeed;
 
@@ -94,30 +104,33 @@ public class NoAimTurretController : MonoBehaviour
         {
             if (isDestructible)
             {
-                BooletScript hitBulletScript = collision.gameObject.GetComponent<BooletScript>();
-
-                if (!hitBulletScript.hasCollided)
+                BulletScript bs = collision.collider.GetComponent<BulletScript>();
+                if (bs != null)
                 {
-                    hitBulletScript.hasCollided = true;
-                    if (currentHealth > 0)
+                    if (bs.damage > 0)
                     {
-                        currentHealth -= damageFromBullets;
-
-                        int numShrapnel = Random.Range(minShrapnel, maxShrapnel);
-                        for (int i = 0; i < numShrapnel; i++)
-                        {
-                            GameObject shrapnel = Instantiate(shrapnelPrefab);
-                            shrapnel.transform.position = turretModel.position + Random.onUnitSphere;
-                            shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
-                            Vector3 velocity = Random.insideUnitSphere * 5;
-                            Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
-                            projRb.velocity = velocity;
-                            shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
-                            shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
-                        }
+                        Debug.Log("Turret is taking " + bs.damage + " damage");
+                        currentHealth -= (int) bs.damage;
+                        SpawnShrapnel();
                     }
                 }
             }            
+        }
+    }
+
+    private void SpawnShrapnel()
+    {
+        for (int i = 0; i < Random.Range(10, 20); i++)
+        {
+            GameObject shrapnel = Instantiate(shrapnelPrefab);
+            shrapnel.transform.SetParent(transform);
+            shrapnel.transform.position = turretModel.position + Random.onUnitSphere;
+            shrapnel.transform.localScale = Vector3.Scale(new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)), shrapnelPrefab.transform.localScale) * 2;
+            Vector3 velocity = Random.insideUnitSphere * 5;
+            Rigidbody projRb = shrapnel.GetComponent<Rigidbody>();
+            projRb.velocity = velocity;
+            shrapnel.GetComponent<Renderer>().material = shrapnelMaterials[Random.Range(0, shrapnelMaterials.Length)];
+            shrapnel.GetComponent<ShrapnelScript>().destroyDelay = Random.Range(1.0f, 3.0f);
         }
     }
 
@@ -127,5 +140,39 @@ public class NoAimTurretController : MonoBehaviour
         {
             Gizmos.DrawSphere(aimTarget.position, 0.25f);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isDestructible)
+        {
+            if (other.tag == "Explosion" && explosionGrace == false)
+            {
+                if (other.GetComponent<ExplosionScript>().damage > 0)
+                {
+                    explosionGrace = true;
+                    StartCoroutine(ExplosionCoroutine());
+                    currentHealth -= other.GetComponent<ExplosionScript>().damage;
+                    SpawnShrapnel();
+                }
+
+            }
+            else if (other.tag == "Laserbeam")
+            {
+                if (incomingLaserDamage > 0)
+                {
+                    currentHealth -= incomingLaserDamage;
+                    SpawnShrapnel();
+                }
+            }
+        }
+  
+    }
+
+    IEnumerator ExplosionCoroutine()
+    {
+        yield return new WaitForSeconds(1);
+
+        explosionGrace = false;
     }
 }

@@ -24,7 +24,7 @@ public class GameOver_UIPanel : Base_UIPanel
 
     void RestartButtonPressed()
     {
-        GameManager.Instance.StartGame();
+        GameManager.Instance.RestartLevel();
     }
 
     void MainMenuButtonPressed()

@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/TitleScreen.unity
     guid: 12c0e95cdad628944b23fd8bab237889
   - enabled: 0
-    path: Assets/Scenes/SpencerTestingScene.unity
+    path: 
     guid: 50e98e55ba1643447b2fee73fc6794f2
   - enabled: 0
-    path: Assets/Scenes/ZachTestingScene.unity
+    path: 
     guid: 588b67af89c485f4c9154acc8368b03d
   - enabled: 0
     path: Assets/Scenes/FirstLevel.unity
@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DemoLevel.unity
     guid: c7146d46596eeb146b1ba08cc2047029
+  - enabled: 1
+    path: Assets/Scenes/AntLevel.unity
+    guid: f4cadc36e3c5882439fa3565f617d589
   m_configObjects: {}
