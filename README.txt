@@ -38,6 +38,8 @@ The pathfinding for the mobile enemies sometimes behaves unexpectedly, causing t
 
 --- External Resources ---
 Smoke and explosion effects from Unity Standard Assets
+Sci-Fi Styled Modular Pack
+Technical laboratory designer-V1_Room
 
 --- Work Allocation ---
 Armand Marino: enemy modeling and prefabs, damage interactions and effects
